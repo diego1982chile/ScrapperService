@@ -117,3 +117,45 @@ body .ui-widget-header {
 .topbar-menu-button {
     display: none !important;
 }
+
+.landing-wrapper #header {
+    background: #dfdfe0 !important;
+}
+
+.landing-wrapper #header .header-content h1 {
+    color: #212121 !important;
+}
+
+.landing-wrapper #header .header-top #menu li a {
+    color: #212121 !important;
+}
+
+.landing-wrapper #header {
+    min-height: 100px !important;
+}
+
+.ui-outputlabel .ui-widget {
+    color: #212121 !important;
+}
+
+body .ui-fieldset .ui-fieldset-legend {
+    color: #212121 !important;
+}
+
+body .ui-chkbox .ui-chkbox-box.ui-state-active {
+    background-color: #ffc107 !important;
+    border-color: #ffc107 !important;
+}
+
+.ui-selectmanycheckbox .ui-widget .ui-grid .ui-grid-responsive {
+    min-height: 294px !important;
+}
+
+.landing-wrapper #header .header-top {
+    background-color: #dfdfe0;
+}
+
+
+.scrappers .ui-g-12 {
+    padding: 0px!important;
+}

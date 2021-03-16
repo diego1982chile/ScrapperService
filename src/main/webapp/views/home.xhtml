@@ -1,0 +1,198 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <h:form id="scrapper-form">
+
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <div class="card">
+                    <h1>Descarga de Scraps CTL</h1>
+
+                    <p:separator styleClass="heading-separator"/>
+
+                    <br/>
+
+                    <div class="ui-fluid">
+
+                        <div class="ui-g">
+                            <div class="ui-g-6 ui-md-6 ui-lg-2">
+                                <p:outputLabel value="Personalizar:"/>
+                            </div>
+                            <div class="ui-g-6 ui-md-6 ui-lg-3">
+                                <p:inputSwitch value="#{homeBean.custom}" styleClass="#{homeBean.inputSwitchClass()}">
+                                    <p:ajax update="scrapper-form" async="false" delay="100" />
+                                </p:inputSwitch>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <p:outputPanel rendered="#{homeBean.custom}" id="custom">
+
+                        <div class="ui-fluid">
+
+                            <div class="ui-g">
+
+                                <div class="ui-g-6 ui-md-6 ui-lg-2">
+                                    <p:outputLabel value="Fecha Proceso:"/>
+                                </div>
+
+                                <div class="ui-g-6 ui-md-3 ui-lg-3">
+                                    <p:calendar id="inline" value="#{homeBean.date}" maxdate="#{homeBean.maxDate}" locale="es">
+                                        <p:ajax event="dateSelect" listener="#{homeBean.selectDate}" update="@(.btn)"/>
+                                    </p:calendar>
+                                </div>
+
+                            </div>
+
+                            <div class="ui-g">
+
+                                <div class="ui-g-6 ui-md-6 ui-lg-2">
+                                    <p:outputLabel value="Cadenas:"/>
+                                </div>
+
+                                <div class="ui-g-6 ui-md-3 ui-lg-3" style="text-align: left">
+                                    <p:selectManyCheckbox id="scrappers" styleClass="scrappers"
+                                                          converter="omnifaces.SelectItemsConverter"
+                                                          value="#{homeBean.selectedScrappers}"
+                                                          layout="responsive" style="padding: 0px"
+                                                          columns="1">
+
+                                        <f:selectItems value="#{homeBean.processHelper.scrappers}" var="scrapper"
+                                                       itemLabel="#{scrapper.cadena}" itemValue="#{scrapper}"/>
+
+                                        <p:ajax event="change" update="custom"  />
+
+                                    </p:selectManyCheckbox>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </p:outputPanel>
+
+                    <br/>
+
+                    <div class="ui-fluid">
+
+                        <div class="ui-g">
+
+                            <div class="ui-g-12 ui-md-6 ui-lg-3" style="padding: 0">
+
+                                <p:commandButton action="#{homeBean.process}" onclick="PF('poll').start();start()" value="Procesar"
+                                                 styleClass="btn" style="background-color: #FFC107; min-width: 276px; max-width: 276px" widgetVar="startButton1">
+                                    <p:confirm header="Confirmar Acción" message="Se va a generar el proceso #{homeBean.processName}. ¿Confirma esta acción?" icon="ui-icon-alert"/>
+                                </p:commandButton>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <p:poll interval="1" update="logs" widgetVar="poll" listener="#{homeBean.scroll}" autoStart="false" async="true"  />
+
+                <p:outputPanel id="logs" styleClass="logs">
+                    <div class="ui-g dashboard">
+                        <div class="ui-g-12" style="padding: 0px">
+                            <div class="card timeline ui-fluid">
+                                <h1>Logs</h1>
+                                <p:separator styleClass="heading-separator"/>
+                                <br/>
+                                <div class="ui-g">
+                                    <p:repeat value="#{homeBean.logHelper.logs}" var="log">
+                                        <div class="ui-g-3 ui-md-2 ui-lg-2">
+                                            <span class="event-time" style="padding-right: 15px; float: right; padding-top: 11px; color: #757575">#{log.timestamp}</span>
+                                            <p:outputPanel rendered="#{log.level == 'INFO'}">
+                                                <i class="fa fa-info-circle" style="font-size:36px;color:#5180ceb3;top:8px"/>
+                                            </p:outputPanel>
+                                            <p:outputPanel rendered="#{log.level == 'WARNING'}">
+                                                <i class="fa fa-warning" style="font-size:36px;color:#ffc107ad;top:8px"/>
+                                            </p:outputPanel>
+                                            <p:outputPanel rendered="#{log.level == 'ERROR'}">
+                                                <i class="ui-icon ui-icon-cancel" style="font-size:36px;color:#ff5722a6;top:8px"/>
+                                            </p:outputPanel>
+                                        </div>
+                                        <div class="ui-g-9 ui-md-10 ui-lg-10">
+                                            <span class="event-owner" style="color:#009688">#{log.method}</span>
+                                            <span class="event-text" style="padding-bottom: 2px">#{log.classname}</span>
+                                            <div class="event-content" style="font-size: small">
+                                                #{log.message}
+                                            </div>
+                                        </div>
+                                    </p:repeat>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </p:outputPanel>
+
+                <p:progressBar id="progressBarClient" widgetVar="pbClient" style="width:100%;display:none; background-color: #FFC107" styleClass="progress" mode="indeterminate"/>
+
+            </div>
+        </div>
+
+        <p:messages id="messages" showDetail="true" closable="true" autoUpdate="true" rendered="true"/>
+
+        </h:form>
+
+        <p:confirmDialog id="confirm" global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes"
+                             icon="ui-icon-check"/>
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
+                             icon="ui-icon-close"/>
+        </p:confirmDialog>
+
+        <script type="text/javascript">
+
+            $(function() {
+                $('.logs').hide();
+            });
+
+            function scroll() {
+                $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+            }
+
+            function start() {
+                PF('startButton1').disable();
+
+                $('.logs').show();
+                $('.progress').show();
+
+                window['progress'] = setInterval(function () {
+                    var pbClient = PF('pbClient'),
+                            oldValue = pbClient.getValue(),
+                            newValue = oldValue + 10;
+
+                    pbClient.setValue(pbClient.getValue() + 10);
+
+                    if (newValue === 100) {
+                        clearInterval(window['progress']);
+                    }
+
+
+                }, 1000);
+            }
+
+            function cancel() {
+                $('.progress').hide();
+                clearInterval(window['progress']);
+                PF('pbClient').setValue(0);
+                PF('startButton1').enable();
+            }
+
+
+        </script>
+        
+    </ui:define>
+
+</ui:composition>

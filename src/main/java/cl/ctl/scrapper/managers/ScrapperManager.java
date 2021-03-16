@@ -32,6 +32,8 @@ public class ScrapperManager {
             throw e;
         }
 
+        initProcess();
+
         validateProcess(process);
 
         validateChains(chains);
@@ -63,6 +65,10 @@ public class ScrapperManager {
 
     }
 
+    private void initProcess() {
+        LogHelper.getInstance().reset();
+    }
+
     private void validateProcess(String process) {
 
         if(process == null) {
@@ -73,21 +79,27 @@ public class ScrapperManager {
         LocalDate localDate;
 
         try {
-            dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             localDate = LocalDate.parse(process, dtf);
         }
         catch (Exception e) {
             try {
-                dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                 localDate = LocalDate.parse(process, dtf);
             }
             catch (Exception e1) {
                 try {
-                    dtf = DateTimeFormatter.ofPattern("yyyyMMdd");
+                    dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                     localDate = LocalDate.parse(process, dtf);
                 }
                 catch (Exception e2) {
-                    throw e2;
+                    try {
+                        dtf = DateTimeFormatter.ofPattern("yyyyMMdd");
+                        localDate = LocalDate.parse(process, dtf);
+                    }
+                    catch (Exception e3) {
+                        throw e3;
+                    }
                 }
             }
         }
@@ -111,7 +123,8 @@ public class ScrapperManager {
             }
         }
         for (String chain : chains) {
-            if(!ProcessHelper.getInstance().getScrappers().keySet().contains(chain)) {
+            if(!ProcessHelper.getInstance().getScrappers().keySet().contains(chain) &&
+                    !ProcessHelper.getInstance().getScrappers().keySet().contains(chain.toUpperCase())) {
                 throw new Exception("Nombre de cadena '" + chain + "' no válido. Cadenas válidas: " + ProcessHelper.getInstance().getScrappers().keySet().toString());
             }
         }

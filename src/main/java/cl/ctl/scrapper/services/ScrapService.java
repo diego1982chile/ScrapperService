@@ -8,13 +8,11 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static java.util.Collections.EMPTY_LIST;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 /**
@@ -23,14 +21,14 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @RequestScoped
 @Produces(APPLICATION_JSON)
 @Path("scrap")
-public class ScrapperService {
+public class ScrapService {
 
     @Inject
     ScrapperManager scrapperManager;
 
-    static private final Logger logger = Logger.getLogger(ScrapperService.class.getName());
+    static private final Logger logger = Logger.getLogger(ScrapService.class.getName());
 
-    @GET
+    @POST
     @Asynchronous
     public Response scrap(@QueryParam("process") String process, @QueryParam("chains") List<String> chains) {
         try {
