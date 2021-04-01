@@ -4,33 +4,33 @@ import cl.ctl.scrapper.controllers.Executor;
 import cl.ctl.scrapper.helpers.LogHelper;
 import cl.ctl.scrapper.helpers.ProcessHelper;
 import cl.ctl.scrapper.managers.ScrapperManager;
+import cl.ctl.scrapper.model.FileControl;
+import cl.ctl.scrapper.model.FileControlView;
 import cl.ctl.scrapper.scrappers.AbstractScrapper;
 import org.omnifaces.util.Ajax;
 import org.primefaces.context.RequestContext;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.*;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by des01c7 on 15-12-16.
  */
 
 @ManagedBean(name = "homeBean")
-@ViewScoped
+@SessionScoped
 public class HomeBean {
 
     private boolean custom = false;
@@ -53,8 +53,11 @@ public class HomeBean {
 
     private List<AbstractScrapper> selectedScrappers = new ArrayList<>();
 
+    List<FileControlView> fileControlList = new ArrayList<>();
+
     @Inject
     ScrapperManager scrapperManager;
+
 
     @PostConstruct
     public void init() {
@@ -70,15 +73,102 @@ public class HomeBean {
         LocalDateTime localDateTime = LocalDateTime.now();
 
         if(localDateTime.getHour() < 14) {
-            String msg = "Los archivos para el proceso actual aún no están disponibles. Vuelva a intentarlo más tarde";
+            String msg = "Los scraps para el proceso '" + getProcessName(localDate) + "' aún no están disponibles. Vuelva a intentarlo más tarde";
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", msg));
             Ajax.update("scrapper-form:messages");
+            Ajax.update("scrapper-form:growl");
         }
 
 
         for (AbstractScrapper abstractScrapper : ProcessHelper.getInstance().getScrappers().values()) {
             selectedScrappers.add(abstractScrapper);
+            FileControl dailyFileControl = abstractScrapper.getDailyFileControl();
+
+            if(dailyFileControl != null) {
+                FileControlView fileControlView = new FileControlView(dailyFileControl.getHolding(), dailyFileControl.getChain(), dailyFileControl.getFrequency(), dailyFileControl.getStatus());
+                fileControlList.add(fileControlView);
+                for (String s : dailyFileControl.getErrors()) {
+                    fileControlView.setErrorMsg(s);
+                }
+            }
+            else {
+                fileControlList.add(new FileControlView(abstractScrapper.getHolding(), abstractScrapper.getCadena(), "Dia", null, null));
+            }
+
+            FileControl monthlyFileControl = abstractScrapper.getMonthlyFileControl();
+
+            if(abstractScrapper.isOnlyDiary()) {
+                continue;
+            }
+
+            if(monthlyFileControl != null) {
+                FileControlView fileControlView = new FileControlView(monthlyFileControl.getHolding(), monthlyFileControl.getChain(), monthlyFileControl.getFrequency(), monthlyFileControl.getStatus());
+                fileControlList.add(fileControlView);
+                for (String s : monthlyFileControl.getErrors()) {
+                    fileControlView.setErrorMsg(s);
+                }
+            }
+            else {
+                fileControlList.add(new FileControlView(abstractScrapper.getHolding(), abstractScrapper.getCadena(), "Mes", null, null));
+            }
+
+            if(getProcessHelper().getProcessDate().getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+                FileControl weeklyFileControl = abstractScrapper.getWeeklyFileControl();
+
+                if(weeklyFileControl != null) {
+                    FileControlView fileControlView = new FileControlView(weeklyFileControl.getHolding(), weeklyFileControl.getChain(), weeklyFileControl.getFrequency(), weeklyFileControl.getStatus());
+                    fileControlList.add(fileControlView);
+                    for (String s : weeklyFileControl.getErrors()) {
+                        fileControlView.setErrorMsg(s);
+                    }
+                }
+                else {
+                    fileControlList.add(new FileControlView(abstractScrapper.getHolding(), abstractScrapper.getCadena(), "Dom", null, null));
+                }
+            }
         }
+
+    }
+
+    public void updateFileControlList() {
+        for (AbstractScrapper abstractScrapper : ProcessHelper.getInstance().getScrappers().values()) {
+            FileControl dailyFileControl = abstractScrapper.getDailyFileControl();
+
+            if(dailyFileControl != null) {
+                FileControlView fileControlView = new FileControlView(dailyFileControl.getHolding(), dailyFileControl.getChain(), dailyFileControl.getFrequency(), dailyFileControl.getStatus());
+                fileControlList.set(fileControlList.indexOf(fileControlView), fileControlView);
+                for (String s : dailyFileControl.getErrors()) {
+                    fileControlView.setErrorMsg(s);
+                }
+            }
+
+            FileControl monthlyFileControl = abstractScrapper.getMonthlyFileControl();
+
+            if(abstractScrapper.isOnlyDiary()) {
+                continue;
+            }
+
+            if(monthlyFileControl != null) {
+                FileControlView fileControlView = new FileControlView(monthlyFileControl.getHolding(), monthlyFileControl.getChain(), monthlyFileControl.getFrequency(), monthlyFileControl.getStatus());
+                fileControlList.set(fileControlList.indexOf(fileControlView), fileControlView);
+                for (String s : monthlyFileControl.getErrors()) {
+                    fileControlView.setErrorMsg(s);
+                }
+            }
+
+            if(getProcessHelper().getProcessDate().getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+                FileControl weeklyFileControl = abstractScrapper.getWeeklyFileControl();
+
+                if(weeklyFileControl != null) {
+                    FileControlView fileControlView = new FileControlView(weeklyFileControl.getHolding(), weeklyFileControl.getChain(), weeklyFileControl.getFrequency(), weeklyFileControl.getStatus());
+                    fileControlList.set(fileControlList.indexOf(fileControlView), fileControlView);
+                    for (String s : weeklyFileControl.getErrors()) {
+                        fileControlView.setErrorMsg(s);
+                    }
+                }
+            }
+        }
+
     }
 
     public Date getDate() {
@@ -148,7 +238,15 @@ public class HomeBean {
             processName = getProcessName(localDate);
 
             if(!validateDate()) {
-                String msg = "Los archivos para el proceso actual aún no están disponibles. Vuelva a intentarlo más tarde";
+                String msg = "Los archivos para el proceso '" + getProcessName(localDate) + "' aún no están disponibles. Vuelva a intentarlo más tarde";
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", msg));
+                reqCtx.execute("PF('poll').stop();");
+                reqCtx.getCurrentInstance().execute("cancel();");
+                return;
+            }
+
+            if(selectedScrappers.isEmpty()) {
+                String msg = "Debe seleccionar al menos 1 cadena para procesar";
                 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", msg));
                 reqCtx.execute("PF('poll').stop();");
                 reqCtx.getCurrentInstance().execute("cancel();");
@@ -182,6 +280,7 @@ public class HomeBean {
         } catch (Exception e) {
             reqCtx.execute("PF('poll').stop();");
             reqCtx.getCurrentInstance().execute("cancel();");
+            processing = false;
 
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Ocurrió un error durante el proceso"));
             e.printStackTrace();
@@ -205,8 +304,9 @@ public class HomeBean {
         if(LogHelper.getInstance().getLogs().size() > logAmount) {
             logAmount = LogHelper.getInstance().getLogs().size();
             //RequestContext.getCurrentInstance().execute("scroll();");
+            updateFileControlList();
             RequestContext.getCurrentInstance().scrollTo("scrapper-form:progressBarClient");
-            Ajax.update("scrapper-form:logs");
+            //Ajax.update("scrapper-form:tabs:control-file-table");
         }
     }
 
@@ -250,5 +350,40 @@ public class HomeBean {
     }
 
 
+    public List<FileControlView> getFileControlList() {
+        return fileControlList;
+    }
+
+    public String getStatus(FileControlView fileControl) {
+        if(fileControl.getStatus() == null) {
+            return "fa fa-gear fa-lg";
+        }
+
+        if(fileControl.getStatus().equals("OK")) {
+            return "fa fa-check-circle fa-lg";
+        }
+
+        if(fileControl.getStatus().equals("ERROR")) {
+            return "ui-icon ui-icon-cancel";
+        }
+
+        return "";
+    }
+
+    public String getColor(FileControlView fileControl) {
+        if(fileControl.getStatus() == null) {
+            return "#5180ce";
+        }
+
+        if(fileControl.getStatus().equals("OK")) {
+            return "#4CAF50";
+        }
+
+        if(fileControl.getStatus().equals("ERROR")) {
+            return "#F44336";
+        }
+
+        return "";
+    }
 
 }

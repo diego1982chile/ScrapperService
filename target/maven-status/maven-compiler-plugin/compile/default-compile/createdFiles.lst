@@ -1,5 +1,6 @@
+cl/ctl/scrapper/beans/HomeBean.class
+cl/ctl/scrapper/model/FileControlView.class
 cl/ctl/scrapper/services/ScrapService.class
 cl/ctl/scrapper/services/ApplicationService.class
 cl/ctl/scrapper/managers/ScrapperManager.class
-cl/ctl/scrapper/beans/HomeBean.class
 cl/ctl/scrapper/services/LogService.class

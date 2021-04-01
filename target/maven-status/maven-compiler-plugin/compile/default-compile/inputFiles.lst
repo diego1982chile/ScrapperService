@@ -1,4 +1,5 @@
 /home/des01c7/IdeaProjects/ScrapperService/src/main/java/cl/ctl/scrapper/managers/ScrapperManager.java
+/home/des01c7/IdeaProjects/ScrapperService/src/main/java/cl/ctl/scrapper/model/FileControlView.java
 /home/des01c7/IdeaProjects/ScrapperService/src/main/java/cl/ctl/scrapper/services/ScrapService.java
 /home/des01c7/IdeaProjects/ScrapperService/src/main/java/cl/ctl/scrapper/services/LogService.java
 /home/des01c7/IdeaProjects/ScrapperService/src/main/java/cl/ctl/scrapper/services/ApplicationService.java

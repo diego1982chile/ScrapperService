@@ -8,42 +8,39 @@
     <ui:define name="content">
         <h:form id="scrapper-form">
 
+        <p:growl id="growl" showDetail="true" showSummary="true"/>
+
         <div class="ui-g">
-            <div class="ui-g-12">
-                <div class="card">
-                    <h1>Descarga de Scraps CTL</h1>
+            <div class="ui-g-12" style="padding: 0px">
+                <div class="card ui-fluid">
 
-                    <p:separator styleClass="heading-separator"/>
+                    <div class="ui-g">
 
-                    <br/>
+                        <div class="ui-g-9 ui-md-10 ui-lg-11" style="padding-bottom: 0px">
+                            <h1 style="margin-bottom: 15px">Descarga Scraps CTL</h1>
+                        </div>
 
-                    <div class="ui-fluid">
-
-                        <div class="ui-g">
-                            <div class="ui-g-6 ui-md-6 ui-lg-2">
-                                <p:outputLabel value="Personalizar:"/>
-                            </div>
-                            <div class="ui-g-6 ui-md-6 ui-lg-3">
-                                <p:inputSwitch value="#{homeBean.custom}" styleClass="#{homeBean.inputSwitchClass()}">
-                                    <p:ajax update="scrapper-form" async="false" delay="100" />
-                                </p:inputSwitch>
-                            </div>
-
+                        <div class="ui-g-3 ui-md-2 ui-lg-1">
+                            <p:inputSwitch value="#{homeBean.custom}" styleClass="#{homeBean.inputSwitchClass()}" style="margin-top: 20px; float: right; margin-right: 10px">
+                                <p:ajax update="scrapper-form" async="false" delay="100" />
+                            </p:inputSwitch>
                         </div>
 
                     </div>
 
-                    <p:outputPanel rendered="#{homeBean.custom}" id="custom">
+                    <p:separator styleClass="heading-separator" style="margin-bottom: 0px; padding-bottom: 0px"/>
+
+                    <p:outputPanel rendered="#{homeBean.custom}" id="custom" style="padding-top: 10px">
 
                         <div class="ui-fluid">
 
                             <div class="ui-g">
 
-                                <div class="ui-g-6 ui-md-6 ui-lg-2">
+                                <div class="ui-g-6 ui-md-3 ui-lg-2">
                                     <p:outputLabel value="Fecha Proceso:"/>
                                 </div>
 
-                                <div class="ui-g-6 ui-md-3 ui-lg-3">
+                                <div class="ui-g-6 ui-md-9 ui-lg-3">
                                     <p:calendar id="inline" value="#{homeBean.date}" maxdate="#{homeBean.maxDate}" locale="es">
                                         <p:ajax event="dateSelect" listener="#{homeBean.selectDate}" update="@(.btn)"/>
                                     </p:calendar>
@@ -53,16 +50,16 @@
 
                             <div class="ui-g">
 
-                                <div class="ui-g-6 ui-md-6 ui-lg-2">
+                                <div class="ui-g-6 ui-md-3 ui-lg-2">
                                     <p:outputLabel value="Cadenas:"/>
                                 </div>
 
-                                <div class="ui-g-6 ui-md-3 ui-lg-3" style="text-align: left">
+                                <div class="ui-g-6 ui-md-9 ui-lg-10" style="text-align: left">
                                     <p:selectManyCheckbox id="scrappers" styleClass="scrappers"
                                                           converter="omnifaces.SelectItemsConverter"
-                                                          value="#{homeBean.selectedScrappers}"
+                                                          value="#{homeBean.selectedScrappers}" label="#{scrapper.cadena}"
                                                           layout="responsive" style="padding: 0px"
-                                                          columns="1">
+                                                          columns="3">
 
                                         <f:selectItems value="#{homeBean.processHelper.scrappers}" var="scrapper"
                                                        itemLabel="#{scrapper.cadena}" itemValue="#{scrapper}"/>
@@ -84,10 +81,14 @@
 
                         <div class="ui-g">
 
-                            <div class="ui-g-12 ui-md-6 ui-lg-3" style="padding: 0">
+                            <div class="ui-g-0 ui-md-8 ui-lg-9" style="padding: 0">
 
-                                <p:commandButton action="#{homeBean.process}" onclick="PF('poll').start();start()" value="Procesar"
-                                                 styleClass="btn" style="background-color: #FFC107; min-width: 276px; max-width: 276px" widgetVar="startButton1">
+                            </div>
+
+                            <div class="ui-g-12 ui-md-4 ui-lg-3" style="padding: 0">
+
+                                <p:commandButton action="#{homeBean.process}" onclick="PF('poll').start();start()" value="Procesar" disabled="#{homeBean.processing}"
+                                                 styleClass="btn" style="background-color: #FFC107;" widgetVar="startButton1">
                                     <p:confirm header="Confirmar Acción" message="Se va a generar el proceso #{homeBean.processName}. ¿Confirma esta acción?" icon="ui-icon-alert"/>
                                 </p:commandButton>
 
@@ -99,24 +100,51 @@
 
                 </div>
 
-                <p:poll interval="1" update="logs" widgetVar="poll" listener="#{homeBean.scroll}" autoStart="false" async="true"  />
+                <p:poll interval="1" update="scrapper-form:tabs" widgetVar="poll" listener="#{homeBean.scroll}" autoStart="false" async="true"  />
 
-                <p:outputPanel id="logs" styleClass="logs">
-                    <div class="ui-g dashboard">
-                        <div class="ui-g-12" style="padding: 0px">
-                            <div class="card timeline ui-fluid">
-                                <h1>Logs</h1>
-                                <p:separator styleClass="heading-separator"/>
-                                <br/>
+                <p:tabView scrollable="true" id="tabs">
+
+                    <p:tab title="Scrappers">
+                        <p:dataTable id="control-file-table" var="fileControl" value="#{homeBean.fileControlList}"  scrollable="true" scrollHeight="250"
+                                     selectionMode="single" rowKey="#{fileControl.id}">
+
+                            <p:column  headerText="Cliente">
+                                <h:outputText value="#{fileControl.client}"/>
+                            </p:column>
+
+                            <p:column headerText="Cadena">
+                                <h:outputText value="#{fileControl.chain}" />
+                            </p:column>
+
+                            <p:column headerText="Frecuencia">
+                                <h:outputText value="#{fileControl.frequency}" />
+                            </p:column>
+
+                            <p:column headerText="Status">
+                                <i class="#{homeBean.getStatus(fileControl)}" style="color:#{homeBean.getColor(fileControl)}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                    </p:tab>
+
+                    <!-- Otras descripciones -->
+                    <p:tab title="Logs" id="logs">
+
+                        <p:outputPanel styleClass="logs ui-g dashboard" rendered="#{homeBean.logHelper.logs.isEmpty()}">
+                            <h3 style="color: #757575a1">No hay logs disponibles</h3>
+                        </p:outputPanel>
+
+                        <p:outputPanel styleClass="logs ui-g dashboard" rendered="#{not homeBean.logHelper.logs.isEmpty()}">
+                            <div class="card timeline ui-fluid" style="width: 100%">
                                 <div class="ui-g">
                                     <p:repeat value="#{homeBean.logHelper.logs}" var="log">
                                         <div class="ui-g-3 ui-md-2 ui-lg-2">
                                             <span class="event-time" style="padding-right: 15px; float: right; padding-top: 11px; color: #757575">#{log.timestamp}</span>
                                             <p:outputPanel rendered="#{log.level == 'INFO'}">
-                                                <i class="fa fa-info-circle" style="font-size:36px;color:#5180ceb3;top:8px"/>
+                                                <i class="fa fa-lg fa-info-circle" style="font-size:36px;color:#5180ceb3;top:8px"/>
                                             </p:outputPanel>
                                             <p:outputPanel rendered="#{log.level == 'WARNING'}">
-                                                <i class="fa fa-warning" style="font-size:36px;color:#ffc107ad;top:8px"/>
+                                                <i class="fa fa-lg fa-warning" style="font-size:36px;color:#ffc107ad;top:8px"/>
                                             </p:outputPanel>
                                             <p:outputPanel rendered="#{log.level == 'ERROR'}">
                                                 <i class="ui-icon ui-icon-cancel" style="font-size:36px;color:#ff5722a6;top:8px"/>
@@ -132,11 +160,13 @@
                                     </p:repeat>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </p:outputPanel>
+                        </p:outputPanel>
 
-                <p:progressBar id="progressBarClient" widgetVar="pbClient" style="width:100%;display:none; background-color: #FFC107" styleClass="progress" mode="indeterminate"/>
+                    </p:tab>
+
+                </p:tabView>
+
+                <p:progressBar id="progressBarClient" rendered="#{homeBean.processing}" widgetVar="pbClient" style="width:100%; background-color: #FFC107" styleClass="progress" mode="indeterminate"/>
 
             </div>
         </div>
@@ -155,7 +185,7 @@
         <script type="text/javascript">
 
             $(function() {
-                $('.logs').hide();
+                //$('.logs').hide();
             });
 
             function scroll() {
@@ -163,7 +193,7 @@
             }
 
             function start() {
-                PF('startButton1').disable();
+                //PF('startButton1').disable();
 
                 $('.logs').show();
                 $('.progress').show();

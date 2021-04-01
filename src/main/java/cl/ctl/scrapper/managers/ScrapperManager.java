@@ -5,9 +5,11 @@ import cl.ctl.scrapper.scrappers.AbstractScrapper;
 
 import javax.ejb.Singleton;
 import javax.enterprise.context.RequestScoped;
+import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,7 +71,7 @@ public class ScrapperManager {
         LogHelper.getInstance().reset();
     }
 
-    private void validateProcess(String process) {
+    private void validateProcess(String process) throws IOException {
 
         if(process == null) {
             return;
@@ -122,9 +124,16 @@ public class ScrapperManager {
                 throw new Exception("Nombre de cadena '" + chain + "' no válido. Cadenas válidas: " + ProcessHelper.getInstance().getScrappers().keySet().toString());
             }
         }
+
+        List<String> validChains = new ArrayList<>();
+
+        for (AbstractScrapper abstractScrapper : ProcessHelper.getInstance().getScrappers().values()) {
+            validChains.add(abstractScrapper.getCadena());
+        }
+
+
         for (String chain : chains) {
-            if(!ProcessHelper.getInstance().getScrappers().keySet().contains(chain) &&
-                    !ProcessHelper.getInstance().getScrappers().keySet().contains(chain.toUpperCase())) {
+            if(!validChains.contains(chain) && !validChains.contains(chain.toUpperCase())) {
                 throw new Exception("Nombre de cadena '" + chain + "' no válido. Cadenas válidas: " + ProcessHelper.getInstance().getScrappers().keySet().toString());
             }
         }
