@@ -1,6 +1,6 @@
 .login-body {
     background:  url("\#{resource['ultima-layout:images/login/login.png']}") top left no-repeat #f7f7f7;
-    background-size: 100% auto;
+    background-size: 100% 50%;
 }
 
 .login-panel {
@@ -8,7 +8,7 @@
     width: 350px;
     min-height: 440px;
     padding: 50px 20px;
-    margin: 100px auto 0 auto;
+    margin: 10% auto 0 auto;
     
     .ui-g {
         .ui-g-12 {
@@ -33,16 +33,7 @@
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
     .login-body {
         background:  url("\#{resource['ultima-layout:images/login/login2x.png']}") top left no-repeat #f7f7f7; 
-        background-size: 100% auto;
-    }
-}
-
-@media (max-width: 1024px) {
-    .login-panel {
-        text-align: center;
-        min-height: 440px;
-        margin: 100px auto 0 auto;
-
+        background-size: 100% 50%;
     }
 }
 
@@ -52,7 +43,7 @@
         width: 300px;
         min-height: 440px;
         padding: 40px 20px;
-        margin: 75px auto 0 auto;
+        margin: 10% auto 0 auto;
         
         .ui-g {
             .ui-g-12 {

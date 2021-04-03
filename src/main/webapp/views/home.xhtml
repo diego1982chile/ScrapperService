@@ -2,7 +2,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
+                xmlns:p="http://primefaces.org/ui" xmlns:o="http://java.sun.com/jsf/html"
                 template="/WEB-INF/template.xhtml">
 
     <ui:define name="content">
@@ -100,41 +100,38 @@
 
                 </div>
 
-                <p:poll interval="1" update="scrapper-form:tabs" widgetVar="poll" listener="#{homeBean.scroll}" autoStart="false" async="true"  />
+                <p:poll interval="1" widgetVar="poll" listener="#{homeBean.scroll}" autoStart="false" async="true"  />
 
-                <p:tabView scrollable="true" id="tabs">
+                <div class="ui-g">
 
-                    <p:tab title="Scrappers">
-                        <p:dataTable id="control-file-table" var="fileControl" value="#{homeBean.fileControlList}"  scrollable="true" scrollHeight="250"
-                                     selectionMode="single" rowKey="#{fileControl.id}">
+                <div class="ui-g-12">
+                    <div class="card card-w-title">
 
-                            <p:column  headerText="Cliente">
-                                <h:outputText value="#{fileControl.client}"/>
-                            </p:column>
+                        <p:dataList value="#{homeBean.fileControlList}" var="fileControl"
+                                    type="unordered" itemType="none" styleClass="cars-datalist">
+                            <div style="border-bottom: 1px solid #bdbdbd" class="clearfix car-item">
+                                <p:graphicImage name="images/logos/#{fileControl.logo}" style="width: 96px; float: left; margin: 15px" library="scrapper" />
+                                <div class="car-details">
+                                    <p>#{fileControl.client}</p>
+                                    <p style="color:#757575">#{fileControl.chain} - #{fileControl.frequency}</p>
+                                </div>
+                                <i class="#{homeBean.getStatus(fileControl)}" style="color:#{homeBean.getColor(fileControl)}; margin:24px 24px 0 0; float: right; font-size: 40px"/>
+                            </div>
+                        </p:dataList>
 
-                            <p:column headerText="Cadena">
-                                <h:outputText value="#{fileControl.chain}" />
-                            </p:column>
-
-                            <p:column headerText="Frecuencia">
-                                <h:outputText value="#{fileControl.frequency}" />
-                            </p:column>
-
-                            <p:column headerText="Status">
-                                <i class="#{homeBean.getStatus(fileControl)}" style="color:#{homeBean.getColor(fileControl)}"/>
-                            </p:column>
-
-                        </p:dataTable>
-                    </p:tab>
+                        </div>
+                    </div>
+                </div>
 
                     <!-- Otras descripciones -->
-                    <p:tab title="Logs" id="logs">
+
+                    <p:scrollPanel style="height:250px" >
 
                         <p:outputPanel styleClass="logs ui-g dashboard" rendered="#{homeBean.logHelper.logs.isEmpty()}">
                             <h3 style="color: #757575a1">No hay logs disponibles</h3>
                         </p:outputPanel>
 
-                        <p:outputPanel styleClass="logs ui-g dashboard" rendered="#{not homeBean.logHelper.logs.isEmpty()}">
+                        <p:outputPanel id="logs" styleClass="logs ui-g dashboard" rendered="#{not homeBean.logHelper.logs.isEmpty()}">
                             <div class="card timeline ui-fluid" style="width: 100%">
                                 <div class="ui-g">
                                     <p:repeat value="#{homeBean.logHelper.logs}" var="log">
@@ -162,9 +159,8 @@
                             </div>
                         </p:outputPanel>
 
-                    </p:tab>
+                    </p:scrollPanel>
 
-                </p:tabView>
 
                 <p:progressBar id="progressBarClient" rendered="#{homeBean.processing}" widgetVar="pbClient" style="width:100%; background-color: #FFC107" styleClass="progress" mode="indeterminate"/>
 

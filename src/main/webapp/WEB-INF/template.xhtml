@@ -11,24 +11,24 @@
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
             <meta name="apple-mobile-web-app-capable" content="yes" />
-            <link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.png']}"/>
+            <meta name="theme-color" content="#{guestPreferences.themeColors[guestPreferences.theme]}" />
         </f:facet>
-        <title>CTL - Scrapper</title>
+        <title>PrimeFaces Ultima</title>
         <h:outputScript name="js/nanoscroller.js" library="ultima-layout" />
         <h:outputScript name="js/layout.js" library="ultima-layout" />
         <h:outputScript name="js/ripple.js" library="ultima-layout" />
         <h:outputScript name="js/swipe.js" library="ultima-layout" />
-        <h:outputScript name="calendar_es.js" library="js" />
+        <h:outputScript name="js/calendar_es.js" library="scrapper" />
         <ui:insert name="head"/>
     </h:head>
 
     <h:body styleClass="main-body #{guestPreferences.compact ? 'layout-compact' : null}">
 
         <f:facet name="last">
-            <h:outputStylesheet name="css/scrapper.css"/>
+            <h:outputStylesheet name="css/scrapper.css" library="scrapper"/>
         </f:facet>
         
-        <div class="layout-wrapper menu-layout-static">
+        <div class="layout-wrapper #{guestPreferences.menuLayout} #{guestPreferences.orientationRTL ? 'layout-rtl' : null}">
             <ui:include src="./topbar.xhtml" />
             <ui:include src="./rightpanel.xhtml" />
             <ui:include src="./menu.xhtml" />
@@ -38,6 +38,8 @@
                 
                 <ui:include src="./footer.xhtml" />
             </div>
+
+            <ui:include src="./config.xhtml" />
         </div>
         
         <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
@@ -54,8 +56,7 @@
         <h:outputStylesheet name="css/nanoscroller.css" library="ultima-layout" />
         <h:outputStylesheet name="css/animate.css" library="ultima-layout" />
         <h:outputStylesheet name="css/ripple.css" library="ultima-layout" />
-        <!--h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="ultima-layout" /-->
-        <h:outputStylesheet name="css/layout-mine.css" library="ultima-layout" />
+        <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="ultima-layout" />
     </h:body>
 
 </html>

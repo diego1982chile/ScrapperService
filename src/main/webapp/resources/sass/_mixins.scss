@@ -161,6 +161,14 @@
     overflow: hidden;
 }
 
+@mixin translateX($val) {
+    -webkit-transform: translateX($val);
+    -moz-transform: translateX($val);
+    -o-transform: translateX($val);
+    -ms-transform: translateX($val);
+    transform: translateX($val);
+}
+
 @mixin box-sizing($box-model) {
     -webkit-box-sizing: $box-model;
     -moz-box-sizing: $box-model;
@@ -171,6 +179,74 @@
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+}
+
+@mixin flex() {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+@mixin justify-between() {
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between; 
+}
+
+@mixin justify-center() {
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center; 
+}
+
+@mixin justify-around() {
+    -ms-flex-pack: distribute;
+    justify-content: space-around;    
+}
+
+@mixin align-center() {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+@mixin dir-col() {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+@mixin dir-row() {
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+
+@mixin flex-grow($val) {
+    -ms-flex-positive: $val;
+    -webkit-flex-grow: $val;
+    flex-grow: $val;
+}
+
+@mixin flex-shrink($val) {
+    -ms-flex-negative: $val;
+    -webkit-flex-shrink: $val;
+    flex-shrink: $val;
+}
+@mixin flex-basis($val) {
+    -ms-flex-preferred-size: $val;
+    -webkit-flex-basis: $val;
+    flex-basis: $val;
+}
+
+@mixin align-self-start() {
+    -ms-flex-item-align: start;
+    align-self: flex-start; 
+}
+  
+@mixin align-self-end() {
+    -ms-flex-item-align: end;
+    align-self: flex-end;
 }
 
 @mixin border-box-sizing() {

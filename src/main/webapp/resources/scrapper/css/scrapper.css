@@ -1,0 +1,143 @@
+.ui-datatable tbody tr td {
+    text-align: center !important;
+}
+
+.layout-main {
+    max-width: 1000px;
+}
+
+.layout-wrapper .topbar .topbar-left {
+    padding: 2px;
+    height: 75px;
+    width: 250px;
+}
+
+.layout-wrapper .topbar .logo {
+    width: 240px;
+    height: 80px;
+}
+
+body .ui-button {
+    color: black;
+}
+
+body .ui-widget-header {
+    color: black;
+}
+
+.ui-datepicker-calendar thead tr th {
+    color: black;
+}
+
+.ui-progressbar-indeterminate .ui-progressbar-value::before {
+    background-color: #ffc10752 !important;
+}
+
+.ui-progressbar-indeterminate .ui-progressbar-value::after {
+    background-color: #ffc10752 !important;
+}
+
+.heading-separator {
+    border-top: 0px solid rgb(219, 219, 219) !important;
+    border-bottom: 1px solid #a9a9a970 !important;
+    margin-bottom: 0em !important;
+}
+
+.layout-wrapper .ultima-menu li a span {
+    color: black !important;
+}
+
+.layout-wrapper .topbar-items > li .topbar-icon {
+    color: #5C5C5C !important;
+}
+
+.layout-wrapper .topbar-items .search-item input {
+    color: #5C5C5C !important;
+}
+
+.topbar-menu-button {
+    display: none !important;
+}
+
+.landing-wrapper #header {
+    background: #dfdfe0 !important;
+}
+
+.landing-wrapper #header .header-content h1 {
+    color: #212121 !important;
+}
+
+.landing-wrapper #header .header-top #menu li a {
+    color: #212121 !important;
+}
+
+.landing-wrapper #header {
+    min-height: 100px !important;
+}
+
+.ui-outputlabel .ui-widget {
+    color: #212121 !important;
+}
+
+body .ui-fieldset .ui-fieldset-legend {
+    color: #212121 !important;
+}
+
+body .ui-chkbox .ui-chkbox-box.ui-state-active {
+    background-color: #ffc107 !important;
+    border-color: #ffc107 !important;
+}
+
+.ui-selectmanycheckbox .ui-widget .ui-grid .ui-grid-responsive {
+    min-height: 294px !important;
+}
+
+.landing-wrapper #header .header-top {
+    background-color: #dfdfe0;
+}
+
+.scrappers .ui-g-12 {
+    padding: 0px !important;
+}
+
+body .ui-tabs .ui-tabs-nav > li.ui-state-active a {
+    color: #212121 !important;
+}
+
+body .ui-datatable tbody tr td {
+    padding: 4px !important;
+}
+
+.cars-datalist .text-column p:last-child{
+    color:#757575;
+}
+
+.cars-datalist .car-item i, .cars-datalist .car-item .car-details {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.cars-datalist .car-item button {
+    float: right;
+}
+
+.cars-datalist ul {
+    margin: 0;
+    padding: 0;
+}
+
+.ui-car-display td:last-child {
+    font-weight: 700;
+}
+
+@media (max-width:640px) {
+    .cars-datalist .text-column {
+        text-align: center;
+    }
+}
+
+/*
+.ui-datatable.ui-widget thead {
+    border-bottom: 1px solid #a9a9a970 !important
+}
+*/

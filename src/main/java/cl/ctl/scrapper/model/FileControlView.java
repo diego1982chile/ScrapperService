@@ -1,5 +1,9 @@
 package cl.ctl.scrapper.model;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.UUID;
 
 /**
@@ -8,6 +12,7 @@ import java.util.UUID;
 public class FileControlView {
 
     String id;
+    String logo;
     String client;
     String chain;
     String frequency;
@@ -15,22 +20,21 @@ public class FileControlView {
 
     String errorMsg;
 
-    public FileControlView(String client, String chain, String frequency, String status) {
-        this.id = UUID.randomUUID().toString();
-        this.client = client;
-        this.chain = chain;
-        this.frequency = frequency;
-        this.status = status;
-    }
 
-    public FileControlView(String client, String chain, String frequency, String status, String errorMsg) {
+    public FileControlView(String logo, String client, String chain, String frequency, String status) throws IOException {
         this.id = UUID.randomUUID().toString();
+        this.logo = logo;
         this.client = client;
         this.chain = chain;
         this.frequency = frequency;
         this.status = status;
         this.errorMsg = errorMsg;
     }
+
+    public String getLogo() {
+        return logo;
+    }
+
 
     public String getClient() {
         return client;

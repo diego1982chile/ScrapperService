@@ -1,12 +1,12 @@
-<ui:composition 
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:pu="http://primefaces.org/ultima">
-    
-    <h:form id="menuform"> 
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:pu="http://primefaces.org/ultima">
+
+    <h:form id="menuform">
         <div class="layout-menu #{guestPreferences.menuClass}">
             <div class="nano">
                 <div class="nano-content menu-scroll-content">
@@ -18,7 +18,7 @@
                                 <i class="material-icons">&#xE313;</i>
                             </a>
                         </div>
-                    
+
                         <ul id="profile-menu" class="ultima-menu">
                             <li role="menuitem">
                                 <a href="#" class="ripplelink">
@@ -46,7 +46,7 @@
                             </li>
                         </ul>
                     </ui:fragment>
-                    
+
                     <pu:menu widgetVar="me">
                         <p:menuitem id="um_dashboard" value="Home" icon="fa fa-home" outcome="/views/home"/>
                         <p:submenu id="themes" label="Themes" icon="&#xE40A;" rendered="false">
@@ -77,7 +77,7 @@
                             <p:menuitem id="custom9" value="Inline Profile" icon="&#xE0BA;" actionListener="#{guestPreferences.setProfileMode('inline')}" ajax="false" />
                             <p:menuitem id="custom10" value="Top Profile" icon="&#xE55A;" actionListener="#{guestPreferences.setProfileMode('overlay')}" ajax="false"/>
                         </p:submenu>
-                         <p:submenu id="um_orientation" label="Orientation" icon="&#xE237;" rendered="false">
+                        <p:submenu id="um_orientation" label="Orientation" icon="&#xE237;" rendered="false">
                             <p:menuitem id="um_ltr" value="LTR" icon="&#xE236;" actionListener="#{guestPreferences.setOrientationRTL(false)}" ajax="false" />
                             <p:menuitem id="um_rtl" value="RTL" icon="&#xE237;" actionListener="#{guestPreferences.setOrientationRTL(true)}" ajax="false" />
                         </p:submenu>

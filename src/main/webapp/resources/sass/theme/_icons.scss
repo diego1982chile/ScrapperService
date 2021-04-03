@@ -977,6 +977,8 @@
 .ui-icon-zoom-in { @include icon-override("\e8ff"); }
 .ui-icon-zoom-out { @include icon-override("\e900"); }
 .ui-icon-zoom-out-map { @include icon-override("\e56b"); }
+.ui-icon-seek-next { @include icon-override("\e01f"); }
+.ui-icon-seek-prev { @include icon-override("\e020"); }
 
 .material-icons {
   font-family: 'Material Icons';
