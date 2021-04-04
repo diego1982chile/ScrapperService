@@ -11,7 +11,11 @@
         <p:growl id="growl" showDetail="true" showSummary="true"/>
 
         <div class="ui-g">
+
             <div class="ui-g-12" style="padding: 0px">
+
+                <p:progressBar id="progressBarClient" style="width:100%; display: none; background-color: #FFC107; height: 6px" styleClass="progress" mode="indeterminate"/>
+
                 <div class="card ui-fluid">
 
                     <div class="ui-g">
@@ -88,7 +92,7 @@
                             <div class="ui-g-12 ui-md-4 ui-lg-3" style="padding: 0">
 
                                 <p:commandButton action="#{homeBean.process}" onclick="PF('poll').start();start()" value="Procesar" disabled="#{homeBean.processing}"
-                                                 styleClass="btn" style="background-color: #FFC107;" widgetVar="startButton1">
+                                                 styleClass="btn" style="background-color: #FFC107;" widgetVar="startButton1" icon="fa fa-lg fa-cog">
                                     <p:confirm header="Confirmar Acción" message="Se va a generar el proceso #{homeBean.processName}. ¿Confirma esta acción?" icon="ui-icon-alert"/>
                                 </p:commandButton>
 
@@ -104,16 +108,16 @@
 
                 <div class="ui-g">
 
-                <div class="ui-g-12">
+                <div class="ui-g-12" style="padding: 0px">
                     <div class="card card-w-title">
 
-                        <p:dataList value="#{homeBean.fileControlList}" var="fileControl"
+                        <p:dataList value="#{homeBean.fileControlList}" var="fileControl" id="control-file"
                                     type="unordered" itemType="none" styleClass="cars-datalist">
                             <div style="border-bottom: 1px solid #bdbdbd" class="clearfix car-item">
-                                <p:graphicImage name="images/logos/#{fileControl.logo}" style="width: 96px; float: left; margin: 15px" library="scrapper" />
+                                <p:graphicImage name="images/logos/#{fileControl.logo}" style="float: left; margin: 15px" library="scrapper" />
                                 <div class="car-details">
-                                    <p>#{fileControl.client}</p>
-                                    <p style="color:#757575">#{fileControl.chain} - #{fileControl.frequency}</p>
+                                    <p style="color:#009688;">#{fileControl.frequency}</p>
+                                    <p style="color:#757575">#{fileControl.client}</p>
                                 </div>
                                 <i class="#{homeBean.getStatus(fileControl)}" style="color:#{homeBean.getColor(fileControl)}; margin:24px 24px 0 0; float: right; font-size: 40px"/>
                             </div>
@@ -125,44 +129,6 @@
 
                     <!-- Otras descripciones -->
 
-                    <p:scrollPanel style="height:250px" >
-
-                        <p:outputPanel styleClass="logs ui-g dashboard" rendered="#{homeBean.logHelper.logs.isEmpty()}">
-                            <h3 style="color: #757575a1">No hay logs disponibles</h3>
-                        </p:outputPanel>
-
-                        <p:outputPanel id="logs" styleClass="logs ui-g dashboard" rendered="#{not homeBean.logHelper.logs.isEmpty()}">
-                            <div class="card timeline ui-fluid" style="width: 100%">
-                                <div class="ui-g">
-                                    <p:repeat value="#{homeBean.logHelper.logs}" var="log">
-                                        <div class="ui-g-3 ui-md-2 ui-lg-2">
-                                            <span class="event-time" style="padding-right: 15px; float: right; padding-top: 11px; color: #757575">#{log.timestamp}</span>
-                                            <p:outputPanel rendered="#{log.level == 'INFO'}">
-                                                <i class="fa fa-lg fa-info-circle" style="font-size:36px;color:#5180ceb3;top:8px"/>
-                                            </p:outputPanel>
-                                            <p:outputPanel rendered="#{log.level == 'WARNING'}">
-                                                <i class="fa fa-lg fa-warning" style="font-size:36px;color:#ffc107ad;top:8px"/>
-                                            </p:outputPanel>
-                                            <p:outputPanel rendered="#{log.level == 'ERROR'}">
-                                                <i class="ui-icon ui-icon-cancel" style="font-size:36px;color:#ff5722a6;top:8px"/>
-                                            </p:outputPanel>
-                                        </div>
-                                        <div class="ui-g-9 ui-md-10 ui-lg-10">
-                                            <span class="event-owner" style="color:#009688">#{log.method}</span>
-                                            <span class="event-text" style="padding-bottom: 2px">#{log.classname}</span>
-                                            <div class="event-content" style="font-size: small">
-                                                #{log.message}
-                                            </div>
-                                        </div>
-                                    </p:repeat>
-                                </div>
-                            </div>
-                        </p:outputPanel>
-
-                    </p:scrollPanel>
-
-
-                <p:progressBar id="progressBarClient" rendered="#{homeBean.processing}" widgetVar="pbClient" style="width:100%; background-color: #FFC107" styleClass="progress" mode="indeterminate"/>
 
             </div>
         </div>
@@ -182,6 +148,7 @@
 
             $(function() {
                 //$('.logs').hide();
+                $('.progress').hide();
             });
 
             function scroll() {
@@ -189,7 +156,7 @@
             }
 
             function start() {
-                //PF('startButton1').disable();
+                PF('startButton1').disable();
 
                 $('.logs').show();
                 $('.progress').show();

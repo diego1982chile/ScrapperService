@@ -266,6 +266,7 @@ public class HomeBean {
             }
 
             processing = true;
+            Ajax.update("scrapper-form");
 
             List<String> chains = new ArrayList<>();
 
@@ -284,6 +285,8 @@ public class HomeBean {
             }
             */
 
+            processing = false;
+            Ajax.update("scrapper-form");
             reqCtx.execute("PF('poll').stop();");
             reqCtx.getCurrentInstance().execute("cancel();");
 
@@ -293,6 +296,7 @@ public class HomeBean {
             reqCtx.execute("PF('poll').stop();");
             reqCtx.getCurrentInstance().execute("cancel();");
             processing = false;
+            Ajax.update("scrapper-form");
 
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Ocurrió un error durante el proceso"));
             e.printStackTrace();
@@ -317,9 +321,9 @@ public class HomeBean {
             logAmount = LogHelper.getInstance().getLogs().size();
             //RequestContext.getCurrentInstance().execute("scroll();");
             updateFileControlList();
-            RequestContext.getCurrentInstance().scrollTo("scrapper-form:progressBarClient");
-            Ajax.update("scrapper-form:tabs:control-file");
-            Ajax.update("scrapper-form:tabs:logs");
+            //RequestContext.getCurrentInstance().scrollTo("scrapper-form:progressBarClient");
+            Ajax.update("scrapper-form:control-file");
+            Ajax.update("config-form:config-form-tabs:logs");
         }
     }
 
@@ -374,7 +378,12 @@ public class HomeBean {
         }
 
         if(fileControl.getStatus() == null) {
-            return "fa fa-gear fa-lg";
+            if(processing) {
+                return "fa fa-cog fa-spin fa-lg";
+            }
+            else {
+                return "fa fa-cog fa-lg";
+            }
         }
 
         if(fileControl.getStatus().equals("OK")) {
@@ -395,7 +404,7 @@ public class HomeBean {
         }
 
         if(fileControl.getStatus() == null) {
-            return "#5180ce";
+            return "#607D8B";
         }
 
         if(fileControl.getStatus().equals("OK")) {

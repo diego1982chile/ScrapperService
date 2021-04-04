@@ -15,6 +15,7 @@
 .layout-wrapper .topbar .logo {
     width: 240px;
     height: 80px;
+    margin-left: 10px;
 }
 
 body .ui-button {
@@ -134,6 +135,18 @@ body .ui-datatable tbody tr td {
     .cars-datalist .text-column {
         text-align: center;
     }
+}
+
+.layout-config .layout-config-content .layout-config-button i {
+    color: black !important;
+}
+
+body.layout-compact .ui-button.ui-button-text-icon-left .ui-icon, body.layout-compact .ui-button.ui-button-text-icon-right .ui-icon {
+    color: black !important;
+}
+
+.layout-config .ui-tabs.ui-tabs-top .ui-tabs-panels .ui-tabs-panel {
+    padding-top: 0em !important;
 }
 
 /*
