@@ -4,6 +4,7 @@
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:p="http://primefaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
         xmlns:pu="http://primefaces.org/ultima">
 
     <h:form id="menuform">
@@ -49,6 +50,23 @@
 
                     <pu:menu widgetVar="me">
                         <p:menuitem id="um_dashboard" value="Home" icon="fa fa-home" outcome="/views/home"/>
+                        <p:submenu id="um_b2b_sites" label="Sitios B2B" icon="fa fa-list-alt">
+                            <p:menuitem id="site_construmart" value="Construmart" icon="fa fa-link" ajax="false"
+                                        url="https://b2b.construmart.cl/Construccion/BBRe-commerce/access/login.do" />
+                            <p:menuitem id="site_easy" value="Easy" icon="fa fa-link" ajax="false"
+                                        url="https://www.cenconlineb2b.com/"/>
+                            <p:menuitem id="site_sodimac" value="Sodimac" icon="fa fa-link" ajax="false"
+                                        url="https://b2b.sodimac.com/b2bsocopr/grafica/html/index.html"/>
+                            <p:menuitem id="site_cencosud" value="Cencosud" icon="fa fa-link" ajax="false"
+                                        url="https://www.cenconlineb2b.com/"/>
+                            <p:menuitem id="site_smu" value="SMU" icon="fa fa-link" ajax="false"
+                                        url="https://b2b.smu.cl/BBRe-commerce/main"/>
+                            <p:menuitem id="site_tottus" value="Tottus" icon="fa fa-link" ajax="false"
+                                        url="https://b2b.tottus.com/b2btoclpr/grafica/html/index.html"/>
+                            <p:menuitem id="site_walmart" value="WalMart" icon="fa fa-link" ajax="false"
+                                        url="https://retaillink.login.wal-mart.com/?resumePath=/as/WtUmw/resume/as/authorization.ping"/>
+                        </p:submenu>
+
                         <p:submenu id="themes" label="Themes" icon="&#xE40A;" rendered="false">
                             <f:attribute name="badge" value="5" />
                             <p:menuitem id="theme1" value="Indigo - Pink" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('indigo')}" ajax="false" />

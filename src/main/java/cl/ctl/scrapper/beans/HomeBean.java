@@ -386,11 +386,11 @@ public class HomeBean {
             }
         }
 
-        if(fileControl.getStatus().equals("OK")) {
+        if(fileControl.getStatus().equalsIgnoreCase("OK")) {
             return "fa fa-check-circle fa-lg";
         }
 
-        if(fileControl.getStatus().equals("ERROR")) {
+        if(fileControl.getStatus().equalsIgnoreCase("ERROR")) {
             return "ui-icon ui-icon-cancel";
         }
 

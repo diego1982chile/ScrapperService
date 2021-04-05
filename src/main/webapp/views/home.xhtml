@@ -25,7 +25,7 @@
                         </div>
 
                         <div class="ui-g-3 ui-md-2 ui-lg-1">
-                            <p:inputSwitch value="#{homeBean.custom}" styleClass="#{homeBean.inputSwitchClass()}" style="margin-top: 20px; float: right; margin-right: 10px">
+                            <p:inputSwitch value="#{homeBean.custom}" styleClass="#{homeBean.inputSwitchClass()}" style="margin-top: 10px; float: right; margin-right: 10px">
                                 <p:ajax update="scrapper-form" async="false" delay="100" />
                             </p:inputSwitch>
                         </div>
@@ -45,7 +45,7 @@
                                 </div>
 
                                 <div class="ui-g-6 ui-md-9 ui-lg-3">
-                                    <p:calendar id="inline" value="#{homeBean.date}" maxdate="#{homeBean.maxDate}" locale="es">
+                                    <p:calendar id="inline" value="#{homeBean.date}" maxdate="#{homeBean.maxDate}" locale="es" pattern="dd/MM/yyyy">
                                         <p:ajax event="dateSelect" listener="#{homeBean.selectDate}" update="@(.btn)"/>
                                     </p:calendar>
                                 </div>
