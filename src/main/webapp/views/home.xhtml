@@ -46,7 +46,7 @@
 
                                 <div class="ui-g-6 ui-md-9 ui-lg-3">
                                     <p:calendar id="inline" value="#{homeBean.date}" maxdate="#{homeBean.maxDate}" locale="es" pattern="dd/MM/yyyy">
-                                        <p:ajax event="dateSelect" listener="#{homeBean.selectDate}" update="@(.btn)"/>
+                                        <p:ajax event="dateSelect" listener="#{homeBean.selectDate}"/>
                                     </p:calendar>
                                 </div>
 

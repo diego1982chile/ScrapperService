@@ -47,6 +47,7 @@ public class ScrapperManager {
 
         //ProcessHelper.getInstance().getBarrier().await();
 
+
         logger.log(Level.INFO, "Descomprimiendo y renombrando archivos");
 
         FilesHelper.getInstance().processFiles();

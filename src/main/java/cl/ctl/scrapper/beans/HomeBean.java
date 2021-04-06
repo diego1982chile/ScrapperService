@@ -79,50 +79,56 @@ public class HomeBean {
             Ajax.update("scrapper-form:growl");
         }
 
+        initControlList();
+
+    }
+
+    public void initControlList()  {
+
         try {
+
+            fileControlList.clear();
+
             for (AbstractScrapper abstractScrapper : ProcessHelper.getInstance().getScrappers().values()) {
                 selectedScrappers.add(abstractScrapper);
                 FileControl dailyFileControl = abstractScrapper.getDailyFileControl();
 
-                if(dailyFileControl != null) {
+                if (dailyFileControl != null) {
                     FileControlView fileControlView = new FileControlView(abstractScrapper.getLogo(), dailyFileControl.getHolding(), dailyFileControl.getChain(), dailyFileControl.getFrequency(), dailyFileControl.getStatus());
                     fileControlList.add(fileControlView);
                     for (String s : dailyFileControl.getErrors()) {
                         fileControlView.setErrorMsg(s);
                     }
-                }
-                else {
+                } else {
                     fileControlList.add(new FileControlView(abstractScrapper.getLogo(), abstractScrapper.getHolding(), abstractScrapper.getCadena(), "Dia", null));
                 }
 
                 FileControl monthlyFileControl = abstractScrapper.getMonthlyFileControl();
 
-                if(abstractScrapper.isOnlyDiary()) {
+                if (abstractScrapper.isOnlyDiary()) {
                     continue;
                 }
 
-                if(monthlyFileControl != null) {
+                if (monthlyFileControl != null) {
                     FileControlView fileControlView = new FileControlView(abstractScrapper.getLogo(), monthlyFileControl.getHolding(), monthlyFileControl.getChain(), monthlyFileControl.getFrequency(), monthlyFileControl.getStatus());
                     fileControlList.add(fileControlView);
                     for (String s : monthlyFileControl.getErrors()) {
                         fileControlView.setErrorMsg(s);
                     }
-                }
-                else {
+                } else {
                     fileControlList.add(new FileControlView(abstractScrapper.getLogo(), abstractScrapper.getHolding(), abstractScrapper.getCadena(), "Mes", null));
                 }
 
-                if(getProcessHelper().getProcessDate().getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+                if (getProcessHelper().getProcessDate().getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
                     FileControl weeklyFileControl = abstractScrapper.getWeeklyFileControl();
 
-                    if(weeklyFileControl != null) {
+                    if (weeklyFileControl != null) {
                         FileControlView fileControlView = new FileControlView(abstractScrapper.getLogo(), weeklyFileControl.getHolding(), weeklyFileControl.getChain(), weeklyFileControl.getFrequency(), weeklyFileControl.getStatus());
                         fileControlList.add(fileControlView);
                         for (String s : weeklyFileControl.getErrors()) {
                             fileControlView.setErrorMsg(s);
                         }
-                    }
-                    else {
+                    } else {
                         fileControlList.add(new FileControlView(abstractScrapper.getLogo(), abstractScrapper.getHolding(), abstractScrapper.getCadena(), "Dom", null));
                     }
                 }
@@ -131,8 +137,6 @@ public class HomeBean {
         catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     public void updateFileControlList() {
@@ -188,11 +192,24 @@ public class HomeBean {
     }
 
     public void setDate(Date date) {
-        this.date = date;
 
-        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        try {
+            this.date = date;
 
-        setProcessName(getProcessName(localDate));
+            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            setProcessName(getProcessName(localDate));
+
+            getProcessHelper().setProcessDate(localDate);
+
+            initControlList();
+
+            Ajax.update("scrapper-form:control-file");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public boolean isCustom() {
@@ -407,11 +424,11 @@ public class HomeBean {
             return "#607D8B";
         }
 
-        if(fileControl.getStatus().equals("OK")) {
+        if(fileControl.getStatus().equalsIgnoreCase("OK")) {
             return "#4CAF50";
         }
 
-        if(fileControl.getStatus().equals("ERROR")) {
+        if(fileControl.getStatus().equalsIgnoreCase("ERROR")) {
             return "#F44336";
         }
 
