@@ -12,10 +12,11 @@
     <name>ScrapperService</name>
 
     <properties>
+        <project>ScrapperService</project>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.javaee>8.0</version.javaee>
-        <version.payara.micro>5.182</version.payara.micro>
+        <version.javaee>7.0</version.javaee>
+        <version.payara.micro>5.2020.3</version.payara.micro>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -76,6 +77,18 @@
             </exclusions>
         </dependency>
 
+        <!-- for JSF 2.x -->
+        <dependency>
+            <groupId>org.ocpsoft.rewrite</groupId>
+            <artifactId>rewrite-servlet</artifactId>
+            <version>3.4.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ocpsoft.rewrite</groupId>
+            <artifactId>rewrite-config-prettyfaces</artifactId>
+            <version>3.4.1.Final</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -98,7 +111,7 @@
                 <version>2.3</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <warName>ScrapperService</warName>
+                    <warName>Scrapper</warName>
                 </configuration>
             </plugin>
             <plugin>
@@ -115,6 +128,8 @@
                     </commandLineOptions>
                 </configuration>
             </plugin>
+
+
             <!--plugin>
                 <groupId>org.datanucleus</groupId>
                 <artifactId>datanucleus-maven-plugin</artifactId>

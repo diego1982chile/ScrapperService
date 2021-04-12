@@ -1,5 +1,6 @@
 cl/ctl/scrapper/components/GuestPreferences.class
-cl/ctl/scrapper/beans/HomeBean.class
+cl/ctl/scrapper/beans/ScrapBean.class
+cl/ctl/scrapper/beans/ViewBean.class
 cl/ctl/scrapper/model/FileControlView.class
 cl/ctl/scrapper/components/GuestPreferences$ComponentTheme.class
 cl/ctl/scrapper/services/ScrapService.class

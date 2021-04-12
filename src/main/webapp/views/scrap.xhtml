@@ -6,26 +6,33 @@
                 template="/WEB-INF/template.xhtml">
 
     <ui:define name="content">
+
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{scrapBean.setDate(scrapBean.date)}" />
+        </f:metadata>
+
         <h:form id="scrapper-form">
 
-        <p:growl id="growl" showDetail="true" showSummary="true"/>
+        <p:growl id="growl" showDetail="true" showSummary="true" rendered="false" />
 
-        <div class="ui-g">
+        <p:messages id="messages" showDetail="true" closable="true" autoUpdate="true" rendered="true"/>
+
+            <div class="ui-g">
 
             <div class="ui-g-12" style="padding: 0px">
 
-                <p:progressBar id="progressBarClient" style="width:100%; display: none; background-color: #FFC107; height: 6px" styleClass="progress" mode="indeterminate"/>
+                <p:progressBar id="progressBarClient" style="width:100%; background-color: #FFC107; height: 6px; display: none" styleClass="progress" mode="indeterminate"/>
 
                 <div class="card ui-fluid">
 
                     <div class="ui-g">
 
                         <div class="ui-g-9 ui-md-10 ui-lg-11" style="padding-bottom: 0px">
-                            <h1 style="margin-bottom: 15px">Descarga Scraps CTL</h1>
+                            <h1 style="margin-bottom: 5px">Descarga Scraps CTL</h1>
                         </div>
 
                         <div class="ui-g-3 ui-md-2 ui-lg-1">
-                            <p:inputSwitch value="#{homeBean.custom}" styleClass="#{homeBean.inputSwitchClass()}" style="margin-top: 10px; float: right; margin-right: 10px">
+                            <p:inputSwitch value="#{scrapBean.custom}" styleClass="#{scrapBean.inputSwitchClass()}" style="margin-top: 10px; float: right; margin-right: 10px">
                                 <p:ajax update="scrapper-form" async="false" delay="100" />
                             </p:inputSwitch>
                         </div>
@@ -34,7 +41,7 @@
 
                     <p:separator styleClass="heading-separator" style="margin-bottom: 0px; padding-bottom: 0px"/>
 
-                    <p:outputPanel rendered="#{homeBean.custom}" id="custom" style="padding-top: 10px">
+                    <p:outputPanel rendered="#{scrapBean.custom}" id="custom" style="padding-top: 10px">
 
                         <div class="ui-fluid">
 
@@ -45,8 +52,8 @@
                                 </div>
 
                                 <div class="ui-g-6 ui-md-9 ui-lg-3">
-                                    <p:calendar id="inline" value="#{homeBean.date}" maxdate="#{homeBean.maxDate}" locale="es" pattern="dd/MM/yyyy">
-                                        <p:ajax event="dateSelect" listener="#{homeBean.selectDate}"/>
+                                    <p:calendar id="inline" value="#{scrapBean.date}" maxdate="#{scrapBean.maxDate}" locale="es" pattern="dd/MM/yyyy">
+                                        <p:ajax event="dateSelect" listener="#{scrapBean.selectDate}" update="@(.btn)"/>
                                     </p:calendar>
                                 </div>
 
@@ -61,11 +68,11 @@
                                 <div class="ui-g-6 ui-md-9 ui-lg-10" style="text-align: left">
                                     <p:selectManyCheckbox id="scrappers" styleClass="scrappers"
                                                           converter="omnifaces.SelectItemsConverter"
-                                                          value="#{homeBean.selectedScrappers}" label="#{scrapper.cadena}"
+                                                          value="#{scrapBean.selectedScrappers}" label="#{scrapper.cadena}"
                                                           layout="responsive" style="padding: 0px"
                                                           columns="3">
 
-                                        <f:selectItems value="#{homeBean.processHelper.scrappers}" var="scrapper"
+                                        <f:selectItems value="#{scrapBean.processHelper.scrappers}" var="scrapper"
                                                        itemLabel="#{scrapper.cadena}" itemValue="#{scrapper}"/>
 
                                         <p:ajax event="change" update="custom"  />
@@ -91,9 +98,9 @@
 
                             <div class="ui-g-12 ui-md-4 ui-lg-3" style="padding: 0">
 
-                                <p:commandButton action="#{homeBean.process}" onclick="PF('poll').start();start()" value="Procesar" disabled="#{homeBean.processing}"
-                                                 styleClass="btn" style="background-color: #FFC107;" widgetVar="startButton1" icon="fa fa-lg fa-cog">
-                                    <p:confirm header="Confirmar Acción" message="Se va a generar el proceso #{homeBean.processName}. ¿Confirma esta acción?" icon="ui-icon-alert"/>
+                                <p:commandButton action="#{scrapBean.process}" onclick="PF('poll').start();start()" value="Procesar" disabled="#{scrapBean.processing}"
+                                                 styleClass="btn" style="background-color: #FFC107;" widgetVar="startButton1" icon="fa fa-lg fa-cog" update="@(.btn)">
+                                    <p:confirm header="Confirmar Acción" message="Se va a generar el proceso #{scrapBean.processName}. ¿Confirma esta acción?" icon="ui-icon-alert"/>
                                 </p:commandButton>
 
                             </div>
@@ -104,14 +111,14 @@
 
                 </div>
 
-                <p:poll interval="1" widgetVar="poll" listener="#{homeBean.scroll}" autoStart="false" async="true"  />
+                <p:poll interval="1" widgetVar="poll" listener="#{scrapBean.scroll}" autoStart="false" async="true"  />
 
                 <div class="ui-g">
 
                 <div class="ui-g-12" style="padding: 0px">
                     <div class="card card-w-title">
 
-                        <p:dataList value="#{homeBean.fileControlList}" var="fileControl" id="control-file"
+                        <p:dataList value="#{scrapBean.fileControlList}" var="fileControl" id="control-file"
                                     type="unordered" itemType="none" styleClass="cars-datalist">
                             <div style="border-bottom: 1px solid #bdbdbd" class="clearfix car-item">
                                 <p:graphicImage name="images/logos/#{fileControl.logo}" style="float: left; margin: 15px" library="scrapper" />
@@ -119,7 +126,7 @@
                                     <p style="color:#009688;">#{fileControl.frequency}</p>
                                     <p style="color:#757575">#{fileControl.client}</p>
                                 </div>
-                                <i class="#{homeBean.getStatus(fileControl)}" style="color:#{homeBean.getColor(fileControl)}; margin:24px 24px 0 0; float: right; font-size: 40px"/>
+                                <i class="#{scrapBean.getStatus(fileControl)}" style="color:#{scrapBean.getColor(fileControl)}; margin:24px 24px 0 0; float: right; font-size: 40px"/>
                             </div>
                         </p:dataList>
 
@@ -132,8 +139,6 @@
 
             </div>
         </div>
-
-        <p:messages id="messages" showDetail="true" closable="true" autoUpdate="true" rendered="true"/>
 
         </h:form>
 
@@ -148,38 +153,24 @@
 
             $(function() {
                 //$('.logs').hide();
-                $('.progress').hide();
+                //$('.progress').hide();
             });
 
+            /*
             function scroll() {
                 $("html, body").animate({ scrollTop: $(document).height() }, 1000);
             }
+            */
 
             function start() {
+                alert("start");
                 PF('startButton1').disable();
-
-                $('.logs').show();
                 $('.progress').show();
-
-                window['progress'] = setInterval(function () {
-                    var pbClient = PF('pbClient'),
-                            oldValue = pbClient.getValue(),
-                            newValue = oldValue + 10;
-
-                    pbClient.setValue(pbClient.getValue() + 10);
-
-                    if (newValue === 100) {
-                        clearInterval(window['progress']);
-                    }
-
-
-                }, 1000);
             }
 
             function cancel() {
+                alert("cancel");
                 $('.progress').hide();
-                clearInterval(window['progress']);
-                PF('pbClient').setValue(0);
                 PF('startButton1').enable();
             }
 

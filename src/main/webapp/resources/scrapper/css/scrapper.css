@@ -149,6 +149,31 @@ body.layout-compact .ui-button.ui-button-text-icon-left .ui-icon, body.layout-co
     padding-top: 0em !important;
 }
 
+.layout-wrapper .footer {
+    padding: 0px !important;
+}
+
+/*
+#scrapper-form\:calendar_input {
+    display: none !important;
+}
+*/
+
+
+body.layout-compact .ui-calendar .ui-datepicker-trigger {
+    right: 34px !important;
+}
+
+body .ui-button.ui-button-icon-only {
+    -webkit-border-radius: 20% !important;
+    color:#2b3135 !important;
+}
+
+#view-form\:calendar_input {
+    width: 95% !important;
+    margin-top: 7px !important;
+}
+
 /*
 .ui-datatable.ui-widget thead {
     border-bottom: 1px solid #a9a9a970 !important

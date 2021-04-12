@@ -16,19 +16,21 @@ public class FileControlView {
     String client;
     String chain;
     String frequency;
+    String filename;
+
     String status;
 
     String errorMsg;
 
 
-    public FileControlView(String logo, String client, String chain, String frequency, String status) throws IOException {
+    public FileControlView(String logo, String client, String chain, String frequency, String filename, String status) {
         this.id = UUID.randomUUID().toString();
         this.logo = logo;
         this.client = client;
         this.chain = chain;
         this.frequency = frequency;
+        this.filename = filename;
         this.status = status;
-        this.errorMsg = errorMsg;
     }
 
     public String getLogo() {
@@ -82,6 +84,18 @@ public class FileControlView {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
     @Override

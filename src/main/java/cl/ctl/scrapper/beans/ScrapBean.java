@@ -29,9 +29,9 @@ import java.util.*;
  * Created by des01c7 on 15-12-16.
  */
 
-@ManagedBean(name = "homeBean")
-@SessionScoped
-public class HomeBean {
+@ManagedBean(name = "scrapBean")
+@ApplicationScoped
+public class ScrapBean {
 
     private boolean custom = false;
 
@@ -41,7 +41,7 @@ public class HomeBean {
     Date maxDate  = new Date();;
 
     boolean dateSelected = false;
-    Executor executor;
+    //Executor executor;
     LogHelper logHelper = LogHelper.getInstance();
     String processName;
 
@@ -61,8 +61,11 @@ public class HomeBean {
 
     @PostConstruct
     public void init() {
-        executor = new Executor();
+        //executor = new Executor();
 
+        LogHelper.getInstance().getLogs().clear();
+
+        date = new Date();
         LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         setProcessName(getProcessName(localDate));
@@ -85,104 +88,96 @@ public class HomeBean {
 
     public void initControlList()  {
 
-        try {
+        fileControlList.clear();
+        selectedScrappers.clear();
 
-            fileControlList.clear();
+        for (AbstractScrapper abstractScrapper : ProcessHelper.getInstance().getScrappers().values()) {
+            selectedScrappers.add(abstractScrapper);
+            FileControl dailyFileControl = abstractScrapper.getDailyFileControl();
 
-            for (AbstractScrapper abstractScrapper : ProcessHelper.getInstance().getScrappers().values()) {
-                selectedScrappers.add(abstractScrapper);
-                FileControl dailyFileControl = abstractScrapper.getDailyFileControl();
+            if (dailyFileControl != null) {
+                FileControlView fileControlView = new FileControlView(abstractScrapper.getLogo(), dailyFileControl.getHolding(), dailyFileControl.getChain(), dailyFileControl.getFrequency(), dailyFileControl.getFileName(), dailyFileControl.getStatus());
+                fileControlList.add(fileControlView);
+                for (String s : dailyFileControl.getErrors()) {
+                    fileControlView.setErrorMsg(s);
+                }
+            } else {
+                fileControlList.add(new FileControlView(abstractScrapper.getLogo(), abstractScrapper.getHolding(), abstractScrapper.getCadena(), "Dia", null, null));
+            }
 
-                if (dailyFileControl != null) {
-                    FileControlView fileControlView = new FileControlView(abstractScrapper.getLogo(), dailyFileControl.getHolding(), dailyFileControl.getChain(), dailyFileControl.getFrequency(), dailyFileControl.getStatus());
+            FileControl monthlyFileControl = abstractScrapper.getMonthlyFileControl();
+
+            if (abstractScrapper.isOnlyDiary()) {
+                continue;
+            }
+
+            if (monthlyFileControl != null) {
+                FileControlView fileControlView = new FileControlView(abstractScrapper.getLogo(), monthlyFileControl.getHolding(), monthlyFileControl.getChain(), monthlyFileControl.getFrequency(), monthlyFileControl.getFileName(), monthlyFileControl.getStatus());
+                fileControlList.add(fileControlView);
+                for (String s : monthlyFileControl.getErrors()) {
+                    fileControlView.setErrorMsg(s);
+                }
+            } else {
+                fileControlList.add(new FileControlView(abstractScrapper.getLogo(), abstractScrapper.getHolding(), abstractScrapper.getCadena(), "Mes", null, null));
+            }
+
+            if (getProcessHelper().getProcessDate().getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+                FileControl weeklyFileControl = abstractScrapper.getWeeklyFileControl();
+
+                if (weeklyFileControl != null) {
+                    FileControlView fileControlView = new FileControlView(abstractScrapper.getLogo(), weeklyFileControl.getHolding(), weeklyFileControl.getChain(), weeklyFileControl.getFrequency(), weeklyFileControl.getFileName(), weeklyFileControl.getStatus());
                     fileControlList.add(fileControlView);
-                    for (String s : dailyFileControl.getErrors()) {
+                    for (String s : weeklyFileControl.getErrors()) {
                         fileControlView.setErrorMsg(s);
                     }
                 } else {
-                    fileControlList.add(new FileControlView(abstractScrapper.getLogo(), abstractScrapper.getHolding(), abstractScrapper.getCadena(), "Dia", null));
-                }
-
-                FileControl monthlyFileControl = abstractScrapper.getMonthlyFileControl();
-
-                if (abstractScrapper.isOnlyDiary()) {
-                    continue;
-                }
-
-                if (monthlyFileControl != null) {
-                    FileControlView fileControlView = new FileControlView(abstractScrapper.getLogo(), monthlyFileControl.getHolding(), monthlyFileControl.getChain(), monthlyFileControl.getFrequency(), monthlyFileControl.getStatus());
-                    fileControlList.add(fileControlView);
-                    for (String s : monthlyFileControl.getErrors()) {
-                        fileControlView.setErrorMsg(s);
-                    }
-                } else {
-                    fileControlList.add(new FileControlView(abstractScrapper.getLogo(), abstractScrapper.getHolding(), abstractScrapper.getCadena(), "Mes", null));
-                }
-
-                if (getProcessHelper().getProcessDate().getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
-                    FileControl weeklyFileControl = abstractScrapper.getWeeklyFileControl();
-
-                    if (weeklyFileControl != null) {
-                        FileControlView fileControlView = new FileControlView(abstractScrapper.getLogo(), weeklyFileControl.getHolding(), weeklyFileControl.getChain(), weeklyFileControl.getFrequency(), weeklyFileControl.getStatus());
-                        fileControlList.add(fileControlView);
-                        for (String s : weeklyFileControl.getErrors()) {
-                            fileControlView.setErrorMsg(s);
-                        }
-                    } else {
-                        fileControlList.add(new FileControlView(abstractScrapper.getLogo(), abstractScrapper.getHolding(), abstractScrapper.getCadena(), "Dom", null));
-                    }
+                    fileControlList.add(new FileControlView(abstractScrapper.getLogo(), abstractScrapper.getHolding(), abstractScrapper.getCadena(), "Dom", null, null));
                 }
             }
         }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        Ajax.update("scrapper-form");
+
     }
 
     public void updateFileControlList() {
 
-        try {
-            for (AbstractScrapper abstractScrapper : ProcessHelper.getInstance().getScrappers().values()) {
-                FileControl dailyFileControl = abstractScrapper.getDailyFileControl();
+        for (AbstractScrapper abstractScrapper : ProcessHelper.getInstance().getScrappers().values()) {
+            FileControl dailyFileControl = abstractScrapper.getDailyFileControl();
 
-                if(dailyFileControl != null) {
-                    FileControlView fileControlView = new FileControlView(abstractScrapper.getLogo(), dailyFileControl.getHolding(), dailyFileControl.getChain(), dailyFileControl.getFrequency(), dailyFileControl.getStatus());
-                    fileControlList.set(fileControlList.indexOf(fileControlView), fileControlView);
-                    for (String s : dailyFileControl.getErrors()) {
-                        fileControlView.setErrorMsg(s);
-                    }
-                }
-
-                FileControl monthlyFileControl = abstractScrapper.getMonthlyFileControl();
-
-                if(abstractScrapper.isOnlyDiary()) {
-                    continue;
-                }
-
-                if(monthlyFileControl != null) {
-                    FileControlView fileControlView = new FileControlView(abstractScrapper.getLogo(), monthlyFileControl.getHolding(), monthlyFileControl.getChain(), monthlyFileControl.getFrequency(), monthlyFileControl.getStatus());
-                    fileControlList.set(fileControlList.indexOf(fileControlView), fileControlView);
-                    for (String s : monthlyFileControl.getErrors()) {
-                        fileControlView.setErrorMsg(s);
-                    }
-                }
-
-                if(getProcessHelper().getProcessDate().getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
-                    FileControl weeklyFileControl = abstractScrapper.getWeeklyFileControl();
-
-                    if(weeklyFileControl != null) {
-                        FileControlView fileControlView = new FileControlView(abstractScrapper.getLogo(), weeklyFileControl.getHolding(), weeklyFileControl.getChain(), weeklyFileControl.getFrequency(), weeklyFileControl.getStatus());
-                        fileControlList.set(fileControlList.indexOf(fileControlView), fileControlView);
-                        for (String s : weeklyFileControl.getErrors()) {
-                            fileControlView.setErrorMsg(s);
-                        }
-                    }
+            if(dailyFileControl != null) {
+                FileControlView fileControlView = new FileControlView(abstractScrapper.getLogo(), dailyFileControl.getHolding(), dailyFileControl.getChain(), dailyFileControl.getFrequency(), dailyFileControl.getFileName(), dailyFileControl.getStatus());
+                fileControlList.set(fileControlList.indexOf(fileControlView), fileControlView);
+                for (String s : dailyFileControl.getErrors()) {
+                    fileControlView.setErrorMsg(s);
                 }
             }
 
-        }
-        catch(IOException e) {
-            e.printStackTrace();
+            FileControl monthlyFileControl = abstractScrapper.getMonthlyFileControl();
+
+            if(abstractScrapper.isOnlyDiary()) {
+                continue;
+            }
+
+            if(monthlyFileControl != null) {
+                FileControlView fileControlView = new FileControlView(abstractScrapper.getLogo(), monthlyFileControl.getHolding(), monthlyFileControl.getChain(), monthlyFileControl.getFrequency(), monthlyFileControl.getFileName(), monthlyFileControl.getStatus());
+                fileControlList.set(fileControlList.indexOf(fileControlView), fileControlView);
+                for (String s : monthlyFileControl.getErrors()) {
+                    fileControlView.setErrorMsg(s);
+                }
+            }
+
+            if(getProcessHelper().getProcessDate().getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+                FileControl weeklyFileControl = abstractScrapper.getWeeklyFileControl();
+
+                if(weeklyFileControl != null) {
+                    FileControlView fileControlView = new FileControlView(abstractScrapper.getLogo(), weeklyFileControl.getHolding(), weeklyFileControl.getChain(), weeklyFileControl.getFrequency(), weeklyFileControl.getFileName(), weeklyFileControl.getStatus());
+                    fileControlList.set(fileControlList.indexOf(fileControlView), fileControlView);
+                    for (String s : weeklyFileControl.getErrors()) {
+                        fileControlView.setErrorMsg(s);
+                    }
+                }
+            }
         }
 
     }
@@ -194,17 +189,20 @@ public class HomeBean {
     public void setDate(Date date) {
 
         try {
-            this.date = date;
+            if(!this.date.equals(date)) {
 
-            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                this.date = date;
 
-            setProcessName(getProcessName(localDate));
+                LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-            getProcessHelper().setProcessDate(localDate);
+                setProcessName(getProcessName(localDate));
 
-            initControlList();
+                getProcessHelper().setProcessDate(localDate);
 
-            Ajax.update("scrapper-form:control-file");
+                initControlList();
+
+                Ajax.update("scrapper-form:control-file");
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -230,6 +228,11 @@ public class HomeBean {
     }
 
     public void selectDate() {
+
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        setProcessName(getProcessName(localDate));
+
         dateSelected = true;
     }
 
@@ -258,16 +261,19 @@ public class HomeBean {
     }
 
     public void process() {
+
+
         RequestContext reqCtx = RequestContext.getCurrentInstance();
         FacesContext context = FacesContext.getCurrentInstance();
         LogHelper.getInstance().getLogs().clear();
+        logAmount = 0;
 
         try {
             LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             processName = getProcessName(localDate);
 
             if(!validateDate()) {
-                String msg = "Los archivos para el proceso '" + getProcessName(localDate) + "' aún no están disponibles. Vuelva a intentarlo más tarde";
+                String msg = "Los scraps para el proceso '" + getProcessName(localDate) + "' aún no están disponibles. Vuelva a intentarlo más tarde";
                 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", msg));
                 reqCtx.execute("PF('poll').stop();");
                 reqCtx.getCurrentInstance().execute("cancel();");
@@ -283,7 +289,7 @@ public class HomeBean {
             }
 
             processing = true;
-            Ajax.update("scrapper-form");
+            //Ajax.update("scrapper-form");
 
             List<String> chains = new ArrayList<>();
 
@@ -293,21 +299,15 @@ public class HomeBean {
 
             scrapperManager.scrap(localDate.toString(), chains);
 
-            /*
-            if(!dateSelected) {
-                executor.process();
-            }
-            else {
-                executor.process(localDate);
-            }
-            */
-
             processing = false;
+
             Ajax.update("scrapper-form");
             reqCtx.execute("PF('poll').stop();");
             reqCtx.getCurrentInstance().execute("cancel();");
 
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El proceso se ha completado correctamente"));
+            init();
+
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El proceso '" + processName + "' se ha completado correctamente"));
 
         } catch (Exception e) {
             reqCtx.execute("PF('poll').stop();");
@@ -315,9 +315,10 @@ public class HomeBean {
             processing = false;
             Ajax.update("scrapper-form");
 
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Ocurrió un error durante el proceso"));
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Ocurrió el siguiente error durante el proceso '" + processName + "': " + e.getMessage()));
             e.printStackTrace();
         }
+
 
     }
 
