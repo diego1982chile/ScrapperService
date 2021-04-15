@@ -1,8 +1,10 @@
 package cl.ctl.scrapper.beans;
 
+import cl.ctl.scrapper.helpers.FilesHelper;
 import cl.ctl.scrapper.helpers.LogHelper;
 import cl.ctl.scrapper.helpers.ProcessHelper;
 import cl.ctl.scrapper.managers.ScrapperManager;
+import cl.ctl.scrapper.model.ConcurrentAccessException;
 import cl.ctl.scrapper.model.FileControl;
 import cl.ctl.scrapper.model.FileControlView;
 import cl.ctl.scrapper.scrappers.AbstractScrapper;
@@ -13,6 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import java.io.IOException;
@@ -180,7 +183,7 @@ public class ViewBean {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Date date) throws IOException {
 
         try {
             this.date = date;
@@ -189,17 +192,30 @@ public class ViewBean {
 
             setProcessName(getProcessName(localDate));
 
-            getProcessHelper().setProcessDate(localDate);
+            //getProcessHelper().setProcessDate(localDate);
+
+            getProcessHelper().getScraps(localDate.toString());
 
             initControlList();
 
-            process();
+            //process();
 
             updateFileControlList();
 
             Ajax.update("view-form");
 
-        } catch (IOException e) {
+        } catch (ConcurrentAccessException e) {
+            ExternalContext eContext = FacesContext.getCurrentInstance().getExternalContext();
+            eContext.redirect(eContext.getRequestContextPath() + "/views/errors/concurrent.xhtml");
+            e.printStackTrace();
+            /*
+            FacesContext context = FacesContext.getCurrentInstance();
+
+            String msg = "Actualmente se está ejecutando el proceso '" + ProcessHelper.getInstance().getProcessDate() + "'. Por favor vuelva a intentar más tarde";
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", msg));
+            return;
+            */
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -311,6 +327,7 @@ public class ViewBean {
 
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Ocurrió el siguiente error durante el proceso '" + processName + "': " + e.getMessage()));
             e.printStackTrace();
+
         }
 
     }

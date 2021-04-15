@@ -4,6 +4,7 @@ import cl.ctl.scrapper.controllers.Executor;
 import cl.ctl.scrapper.helpers.LogHelper;
 import cl.ctl.scrapper.helpers.ProcessHelper;
 import cl.ctl.scrapper.managers.ScrapperManager;
+import cl.ctl.scrapper.model.ConcurrentAccessException;
 import cl.ctl.scrapper.model.FileControl;
 import cl.ctl.scrapper.model.FileControlView;
 import cl.ctl.scrapper.scrappers.AbstractScrapper;
@@ -186,7 +187,7 @@ public class ScrapBean {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Date date) throws IOException {
 
         try {
             if(!this.date.equals(date)) {
@@ -197,16 +198,24 @@ public class ScrapBean {
 
                 setProcessName(getProcessName(localDate));
 
-                getProcessHelper().setProcessDate(localDate);
+                //getProcessHelper().setProcessDate(localDate);
+
+                getProcessHelper().getScraps(localDate.toString());
 
                 initControlList();
 
                 Ajax.update("scrapper-form:control-file");
             }
 
-        } catch (IOException e) {
+        } catch (ConcurrentAccessException e) {
+            ExternalContext eContext = FacesContext.getCurrentInstance().getExternalContext();
+            eContext.redirect(eContext.getRequestContextPath() + "/views/errors/concurrent.xhtml");
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+        Ajax.update("scrapper-form:control-file");
 
     }
 
