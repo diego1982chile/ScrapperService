@@ -64,7 +64,7 @@ public class ScrapperManager {
     }
 
 
-    @Schedule(second = "0", minute = "0", hour = "10", persistent = false)
+    @Schedule(second = "0", minute = "51", hour = "14", persistent = false)
     public void processNutrisaMorning() throws Exception {
         try {
             logger.log(Level.INFO, "processNutrisaMorning -> Ejecutando Scrap");
@@ -75,7 +75,7 @@ public class ScrapperManager {
         }
     }
 
-    @Schedule(second = "0", minute = "0", hour = "16", persistent = false)
+    @Schedule(second = "0", minute = "53", hour = "19", persistent = false)
     public void processNutrisaAfternoon() throws Exception {
         try {
             logger.log(Level.INFO, "processNutrisaAfternoon -> Ejecutando Scrap");
@@ -86,7 +86,7 @@ public class ScrapperManager {
         }
     }
 
-    @Schedule(second = "0", minute = "0", hour = "12", persistent = false)
+    @Schedule(second = "0", minute = "5", hour = "15", persistent = false)
     public void processLegrandMorning() throws Exception {
         try {
             logger.log(Level.INFO, "processLegrandMorning -> Ejecutando Scrap");
@@ -97,7 +97,7 @@ public class ScrapperManager {
         }
     }
 
-    @Schedule(second = "0", minute = "0", hour = "18", persistent = false)
+    @Schedule(second = "0", minute = "8", hour = "20", persistent = false)
     public void processLegrandAfternoon() throws Exception {
         try {
             logger.log(Level.INFO, "processLegrandAfternoon -> Ejecutando Scrap");
