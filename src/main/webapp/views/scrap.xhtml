@@ -13,15 +13,20 @@
 
         <h:form id="scrapper-form">
 
-        <p:growl id="growl" showDetail="true" showSummary="true" rendered="false" />
+        <p:growl id="growl" showDetail="true" showSummary="true" rendered="false">
+            <p:autoUpdate/>
+        </p:growl>
 
-        <p:messages id="messages" showDetail="true" closable="true" autoUpdate="true" rendered="true"/>
+        <p:messages id="messages" showDetail="true" closable="true" rendered="true">
+            <p:autoUpdate/>
+        </p:messages>
 
             <div class="ui-g">
 
             <div class="ui-g-12" style="padding: 0px">
 
-                <p:progressBar id="progressBarClient" style="width:100%; background-color: #FFC107; height: 6px; display: none" styleClass="progress" mode="indeterminate"/>
+                <p:progressBar id="progressBarClient" style="width:100%; background-color: #FFC107; height: 6px;"
+                               styleClass="progress" mode="indeterminate" rendered="#{scrapBean.processing}" />
 
                 <div class="card ui-fluid">
 
@@ -111,7 +116,7 @@
 
                 </div>
 
-                <p:poll interval="1" widgetVar="poll" listener="#{scrapBean.scroll}" autoStart="false" async="true"  />
+                <p:poll interval="10" widgetVar="poll" listener="#{scrapBean.scroll}" autoStart="true" async="true"  />
 
                 <div class="ui-g">
 
@@ -163,13 +168,11 @@
             */
 
             function start() {
-                alert("start");
                 PF('startButton1').disable();
                 $('.progress').show();
             }
 
             function cancel() {
-                alert("cancel");
                 $('.progress').hide();
                 PF('startButton1').enable();
             }

@@ -298,7 +298,7 @@ public class ScrapBean {
             }
 
             processing = true;
-            //Ajax.update("scrapper-form");
+            Ajax.update("scrapper-form");
 
             List<String> chains = new ArrayList<>();
 

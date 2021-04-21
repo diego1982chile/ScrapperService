@@ -7,9 +7,7 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import net.lingala.zip4j.exception.ZipException;
 
-import javax.ejb.Asynchronous;
-import javax.ejb.Schedule;
-import javax.ejb.Singleton;
+import javax.ejb.*;
 import javax.enterprise.context.RequestScoped;
 import java.io.IOException;
 import java.text.ParseException;
@@ -26,6 +24,7 @@ import java.util.logging.Logger;
  * Created by root on 08-03-21.
  */
 @Singleton
+@Startup
 public class ScrapperManager {
 
     private static final Logger logger = Logger.getLogger(ScrapperManager.class.getName());
@@ -64,7 +63,8 @@ public class ScrapperManager {
     }
 
 
-    @Schedule(second = "0", minute = "51", hour = "14", persistent = false)
+    @Schedule(second = "0", minute = "0", hour = "10", persistent = false)
+    @Timeout
     public void processNutrisaMorning() throws Exception {
         try {
             logger.log(Level.INFO, "processNutrisaMorning -> Ejecutando Scrap");
@@ -75,7 +75,7 @@ public class ScrapperManager {
         }
     }
 
-    @Schedule(second = "0", minute = "53", hour = "19", persistent = false)
+    @Schedule(second = "0", minute = "35", hour = "16", persistent = false)
     public void processNutrisaAfternoon() throws Exception {
         try {
             logger.log(Level.INFO, "processNutrisaAfternoon -> Ejecutando Scrap");
@@ -86,7 +86,7 @@ public class ScrapperManager {
         }
     }
 
-    @Schedule(second = "0", minute = "5", hour = "15", persistent = false)
+    @Schedule(second = "0", minute = "24", hour = "12", persistent = false)
     public void processLegrandMorning() throws Exception {
         try {
             logger.log(Level.INFO, "processLegrandMorning -> Ejecutando Scrap");
@@ -97,7 +97,7 @@ public class ScrapperManager {
         }
     }
 
-    @Schedule(second = "0", minute = "8", hour = "20", persistent = false)
+    @Schedule(second = "0", minute = "40", hour = "16", persistent = false)
     public void processLegrandAfternoon() throws Exception {
         try {
             logger.log(Level.INFO, "processLegrandAfternoon -> Ejecutando Scrap");
