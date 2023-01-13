@@ -3,6 +3,7 @@ package cl.ctl.scrapper.repositories;
 import cl.ctl.scrapper.models.Holding;
 import cl.ctl.scrapper.models.Retailer;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -20,4 +21,8 @@ public interface HoldingRepository extends JpaRepository<Holding, Long> {
 
     @Query("SELECT h FROM Holding h order by h.name")
     List<Holding> findAllOrderByName();
+
+    @Modifying
+    @Query("delete from Holding h")
+    void removeAll();
 }

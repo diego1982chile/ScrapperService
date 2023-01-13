@@ -3,6 +3,7 @@ package cl.ctl.scrapper.repositories;
 import cl.ctl.scrapper.models.Account;
 import cl.ctl.scrapper.models.Retailer;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -20,4 +21,8 @@ public interface RetailerRepository extends JpaRepository<Retailer, Long> {
 
     @Query("SELECT r FROM Retailer r order by r.name")
     List<Retailer> findAllOrderByName();
+
+    @Modifying
+    @Query("delete from Retailer r")
+    void removeAll();
 }

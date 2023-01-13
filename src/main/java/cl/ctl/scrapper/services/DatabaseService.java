@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,7 +24,7 @@ import java.util.List;
 /**
  * Created by root on 13-10-22.
  */
-@RequestScoped
+@ApplicationScoped
 public class DatabaseService {
 
     @PersistenceContext
@@ -55,10 +56,10 @@ public class DatabaseService {
 
     @Transactional
     private void removeAll() {
-        accountRepository.deleteAll();
-        holdingRepository.deleteAll();
-        retailerRepository.deleteAll();
-        parameterRepository.deleteAll();
+        accountRepository.removeAll();
+        holdingRepository.removeAll();
+        retailerRepository.removeAll();
+        parameterRepository.removeAll();
     }
 
     @Transactional

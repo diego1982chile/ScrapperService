@@ -2,6 +2,7 @@ package cl.ctl.scrapper.repositories;
 
 import cl.ctl.scrapper.models.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -19,4 +20,8 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     @Query("SELECT a FROM Account a where a.retailer.name = :retailer and a.holding.name = :holding")
     Account findAccountByRetailerAndHolding(@Param("retailer") String retailer, @Param("holding") String holding);
+
+    @Modifying
+    @Query("delete from Account a")
+    void removeAll();
 }

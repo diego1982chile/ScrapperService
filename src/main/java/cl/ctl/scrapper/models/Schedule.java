@@ -1,5 +1,6 @@
 package cl.ctl.scrapper.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +27,12 @@ public class Schedule extends AbstractPersistableEntity<Long> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date schedule;
+    private String schedule;
+
+    @ManyToOne
+    @JsonBackReference
+    private Retailer retailer;
+
+
 
 }
