@@ -1,6 +1,7 @@
 package cl.ctl.scrapper.repositories;
 
-import cl.ctl.scrapper.models.Holding;
+import cl.ctl.scrapper.models.Account;
+import cl.ctl.scrapper.models.Client;
 import cl.ctl.scrapper.models.Retailer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,17 +13,17 @@ import java.util.List;
 /**
  * Created by root on 13-10-22.
  */
-public interface HoldingRepository extends JpaRepository<Holding, Long> {
+public interface ClientRepository extends JpaRepository<Client, Long> {
 
-    Holding findById(long id);
+    Client findById(long id);
 
-    @Query("SELECT h FROM Holding h where h.name = :name")
-    Holding findByName(@Param("name") String name);
+    @Query("SELECT c FROM Client c where c.name = :name")
+    Client findByName(@Param("name") String name);
 
-    @Query("SELECT h FROM Holding h order by h.name")
-    List<Holding> findAllOrderByName();
+    @Query("SELECT c FROM Client c order by c.name")
+    List<Client> findAllOrderByName();
 
     @Modifying
-    @Query("delete from Holding h")
+    @Query("delete from Client c")
     void removeAll();
 }

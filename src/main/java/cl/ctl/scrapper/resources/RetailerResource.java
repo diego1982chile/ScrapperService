@@ -1,7 +1,6 @@
 package cl.ctl.scrapper.resources;
 
 
-import cl.ctl.scrapper.models.Account;
 import cl.ctl.scrapper.models.Retailer;
 import cl.ctl.scrapper.services.AccountService;
 import cl.ctl.scrapper.services.RetailerService;

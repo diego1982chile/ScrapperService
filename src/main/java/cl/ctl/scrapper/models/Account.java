@@ -16,7 +16,9 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table
+@Table(uniqueConstraints={
+        @UniqueConstraint(columnNames = {"client_id", "retailer_id"})
+})
 public class Account extends AbstractPersistableEntity<Long> {
 
     @Id
@@ -33,6 +35,6 @@ public class Account extends AbstractPersistableEntity<Long> {
     private Retailer retailer;
 
     @ManyToOne
-    private Holding holding;
+    private Client client;
 
 }

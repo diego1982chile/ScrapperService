@@ -1,10 +1,10 @@
 package cl.ctl.scrapper.configs;
 
-import cl.ctl.scrapper.models.Holding;
+import cl.ctl.scrapper.models.Client;
 import cl.ctl.scrapper.models.Parameter;
 import cl.ctl.scrapper.models.Retailer;
 import cl.ctl.scrapper.repositories.AccountRepository;
-import cl.ctl.scrapper.repositories.HoldingRepository;
+import cl.ctl.scrapper.repositories.ClientRepository;
 import cl.ctl.scrapper.repositories.ParameterRepository;
 import cl.ctl.scrapper.repositories.RetailerRepository;
 import lombok.extern.log4j.Log4j;
@@ -40,7 +40,7 @@ public class DatabaseInitializer {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private HoldingRepository holdingRepository;
+    private ClientRepository clientRepository;
     private RetailerRepository retailerRepository;
     private ParameterRepository parameterRepository;
     private AccountRepository accountRepository;
@@ -55,13 +55,13 @@ public class DatabaseInitializer {
         // Instantiate Spring Data factory
         RepositoryFactorySupport factory = new JpaRepositoryFactory(entityManager);
         // Get an implemetation of PersonRepository from factory
-        this.holdingRepository = factory.getRepository(HoldingRepository.class);
+        this.clientRepository = factory.getRepository(ClientRepository.class);
         this.retailerRepository = factory.getRepository(RetailerRepository.class);
         this.parameterRepository = factory.getRepository(ParameterRepository.class);
         this.accountRepository = factory.getRepository(AccountRepository.class);
 
         executeScripts();
-        initHoldings();
+        initClients();
         initRetailers();
         initParameters();
 
@@ -80,12 +80,12 @@ public class DatabaseInitializer {
         }
 
         try {
-            if(holdingRepository.findAll().isEmpty()) {
-                executeScript("holding.sql");
+            if(clientRepository.findAll().isEmpty()) {
+                executeScript("client.sql");
             }
         }
         catch (Exception e) {
-            executeScript("holding.sql");
+            executeScript("client.sql");
         }
 
         try {
@@ -109,51 +109,51 @@ public class DatabaseInitializer {
     }
 
     @Transactional
-    private void initHoldings() {
-        List<Holding> holdings = holdingRepository.findAll();
+    private void initRetailers() {
+        List<Retailer> retailers = retailerRepository.findAll();
 
-        if(holdings.isEmpty()) {
-            Holding holding = Holding.builder().name("construmart").build();
-            holdingRepository.save(holding);
+        if(retailers.isEmpty()) {
+            Retailer retailer = Retailer.builder().name("construmart").build();
+            retailerRepository.save(retailer);
 
-            holding = Holding.builder().name("easy").build();
-            holdingRepository.save(holding);
+            retailer = Retailer.builder().name("easy").build();
+            retailerRepository.save(retailer);
 
-            holding = Holding.builder().name("sodimac").build();
-            holdingRepository.save(holding);
+            retailer = Retailer.builder().name("sodimac").build();
+            retailerRepository.save(retailer);
 
-            holding = Holding.builder().name("cencosud").build();
-            holdingRepository.save(holding);
+            retailer = Retailer.builder().name("cencosud").build();
+            retailerRepository.save(retailer);
 
-            holding = Holding.builder().name("smu").build();
-            holdingRepository.save(holding);
+            retailer = Retailer.builder().name("smu").build();
+            retailerRepository.save(retailer);
 
-            holding = Holding.builder().name("tottus").build();
-            holdingRepository.save(holding);
+            retailer = Retailer.builder().name("tottus").build();
+            retailerRepository.save(retailer);
 
-            holding = Holding.builder().name("walmart").build();
-            holdingRepository.save(holding);
+            retailer = Retailer.builder().name("walmart").build();
+            retailerRepository.save(retailer);
 
         }
 
     }
 
     @Transactional
-    private void initRetailers() {
-        List<Retailer> retailers = retailerRepository.findAll();
+    private void initClients() {
+        List<Client> clients = clientRepository.findAll();
 
-        if(retailers.isEmpty()) {
-            Retailer retailer = Retailer.builder().name("nutrisa").build();
-            retailerRepository.save(retailer);
+        if(clients.isEmpty()) {
+            Client client = Client.builder().name("nutrisa").build();
+            clientRepository.save(client);
 
-            retailer = Retailer.builder().name("legrand").build();
-            retailerRepository.save(retailer);
+            client = Client.builder().name("legrand").build();
+            clientRepository.save(client);
 
-            retailer = Retailer.builder().name("bless").build();
-            retailerRepository.save(retailer);
+            client = Client.builder().name("bless").build();
+            clientRepository.save(client);
 
-            retailer = Retailer.builder().name("soho").build();
-            retailerRepository.save(retailer);
+            client = Client.builder().name("soho").build();
+            clientRepository.save(client);
         }
 
     }

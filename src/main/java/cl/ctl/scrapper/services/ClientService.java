@@ -1,8 +1,10 @@
 package cl.ctl.scrapper.services;
 
-import cl.ctl.scrapper.models.Holding;
+import cl.ctl.scrapper.models.Account;
+import cl.ctl.scrapper.models.Client;
 import cl.ctl.scrapper.models.Retailer;
-import cl.ctl.scrapper.repositories.HoldingRepository;
+import cl.ctl.scrapper.repositories.AccountRepository;
+import cl.ctl.scrapper.repositories.ClientRepository;
 import cl.ctl.scrapper.repositories.RetailerRepository;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
@@ -18,39 +20,44 @@ import java.util.List;
  * Created by root on 13-10-22.
  */
 @RequestScoped
-public class HoldingService {
+public class ClientService {
 
     @PersistenceContext
     private EntityManager entityManager;
-    private HoldingRepository holdingRepository;
+    private ClientRepository clientRepository;
 
     @PostConstruct
     private void init() {
         // Instantiate Spring Data factory
         RepositoryFactorySupport factory = new JpaRepositoryFactory(entityManager);
         // Get an implemetation of PersonRepository from factory
-        this.holdingRepository = factory.getRepository(HoldingRepository.class);
+        this.clientRepository = factory.getRepository(ClientRepository.class);
     }
 
-    public List<Holding> getAllRetailers() {
-        return holdingRepository.findAllOrderByName();
+    public List<Client> getAllClients() {
+        return clientRepository.findAllOrderByName();
     }
 
     @Transactional
-    public Holding saveHolding(Holding holding) {
-        if(holding.isPersisted()) {
-            Holding previous = holdingRepository.findById(holding.getId());
-            previous.setName(holding.getName());
+    public Client saveClient(Client client) {
+        if(client.isPersisted()) {
+            Client previous = clientRepository.findById(client.getId());
+            previous.setName(client.getName());
+            /*
+            if(retailer.getSchedules() != null) {
+                previous.setSchedules(retailer.getSchedules());
+            }
+            */
 
-            return holdingRepository.save(previous);
+            return clientRepository.save(previous);
         }
         else {
-            return holdingRepository.save(holding);
+            return clientRepository.save(client);
         }
     }
 
     @Transactional
-    public void deleteHolding(long id) {
-        holdingRepository.delete(id);
+    public void deleteClient(long id) {
+        clientRepository.delete(id);
     }
 }

@@ -10,6 +10,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -34,12 +35,12 @@ public class AccountService {
         return accountRepository.findAllOrderByRetailerAndHolding();
     }
 
-    public Account getAccountByRetailerAndHolding(String retailer, String holding) {
-        return accountRepository.findAccountByRetailerAndHolding(retailer, holding);
+    public Account getAccountByClientAndRetailer(String client, String retailer) {
+        return accountRepository.findAccountByClientAndRetailer(client, retailer);
     }
 
     @Transactional
-    public Account saveAccount(Account account) {
+    public Account saveAccount(Account account) throws SQLException {
         if(account.isPersisted()) {
             Account previous = accountRepository.findById(account.getId());
             previous.setUser(account.getUser());
@@ -50,6 +51,9 @@ public class AccountService {
             return accountRepository.save(previous);
         }
         else {
+            if(getAccountByClientAndRetailer(account.getClient().getName(), account.getRetailer().getName()) != null) {
+                throw new SQLException("A UNIQUE constraint failed (UNIQUE constraint failed: ACCOUNT.CLIENT_ID, ACCOUNT.RETAILER_ID)");
+            }
             return accountRepository.save(account);
         }
     }

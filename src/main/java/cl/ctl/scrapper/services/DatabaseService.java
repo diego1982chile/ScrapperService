@@ -1,11 +1,11 @@
 package cl.ctl.scrapper.services;
 
 import cl.ctl.scrapper.models.Account;
-import cl.ctl.scrapper.models.Holding;
+import cl.ctl.scrapper.models.Client;
 import cl.ctl.scrapper.models.Parameter;
 import cl.ctl.scrapper.models.Retailer;
 import cl.ctl.scrapper.repositories.AccountRepository;
-import cl.ctl.scrapper.repositories.HoldingRepository;
+import cl.ctl.scrapper.repositories.ClientRepository;
 import cl.ctl.scrapper.repositories.ParameterRepository;
 import cl.ctl.scrapper.repositories.RetailerRepository;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
@@ -13,13 +13,9 @@ import org.springframework.data.repository.core.support.RepositoryFactorySupport
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by root on 13-10-22.
@@ -29,7 +25,7 @@ public class DatabaseService {
 
     @PersistenceContext
     private EntityManager entityManager;
-    private HoldingRepository holdingRepository;
+    private ClientRepository clientRepository;
     private RetailerRepository retailerRepository;
     private ParameterRepository parameterRepository;
     private AccountRepository accountRepository;
@@ -39,7 +35,7 @@ public class DatabaseService {
         // Instantiate Spring Data factory
         RepositoryFactorySupport factory = new JpaRepositoryFactory(entityManager);
         // Get an implemetation of PersonRepository from factory
-        this.holdingRepository = factory.getRepository(HoldingRepository.class);
+        this.clientRepository = factory.getRepository(ClientRepository.class);
         this.retailerRepository = factory.getRepository(RetailerRepository.class);
         this.parameterRepository = factory.getRepository(ParameterRepository.class);
         this.accountRepository = factory.getRepository(AccountRepository.class);
@@ -48,7 +44,7 @@ public class DatabaseService {
     @Transactional
     public void loadData() {
         removeAll();
-        initHoldings();
+        initClients();
         initRetailers();
         initParameters();
         initAccounts();
@@ -57,51 +53,51 @@ public class DatabaseService {
     @Transactional
     private void removeAll() {
         accountRepository.removeAll();
-        holdingRepository.removeAll();
+        clientRepository.removeAll();
         retailerRepository.removeAll();
         parameterRepository.removeAll();
     }
 
     @Transactional
-    private void initHoldings() {
+    private void initRetailers() {
 
-        Holding holding = Holding.builder().name("construmart").build();
-        holdingRepository.save(holding);
+        Retailer retailer = Retailer.builder().name("construmart").build();
+        retailerRepository.save(retailer);
 
-        holding = Holding.builder().name("easy").build();
-        holdingRepository.save(holding);
+        retailer = Retailer.builder().name("easy").build();
+        retailerRepository.save(retailer);
 
-        holding = Holding.builder().name("sodimac").build();
-        holdingRepository.save(holding);
+        retailer = Retailer.builder().name("sodimac").build();
+        retailerRepository.save(retailer);
 
-        holding = Holding.builder().name("cencosud").build();
-        holdingRepository.save(holding);
+        retailer = Retailer.builder().name("cencosud").build();
+        retailerRepository.save(retailer);
 
-        holding = Holding.builder().name("smu").build();
-        holdingRepository.save(holding);
+        retailer = Retailer.builder().name("smu").build();
+        retailerRepository.save(retailer);
 
-        holding = Holding.builder().name("tottus").build();
-        holdingRepository.save(holding);
+        retailer = Retailer.builder().name("tottus").build();
+        retailerRepository.save(retailer);
 
-        holding = Holding.builder().name("walmart").build();
-        holdingRepository.save(holding);
+        retailer = Retailer.builder().name("walmart").build();
+        retailerRepository.save(retailer);
 
     }
 
     @Transactional
-    private void initRetailers() {
+    private void initClients() {
 
-        Retailer retailer = Retailer.builder().name("nutrisa").build();
-        retailerRepository.save(retailer);
+        Client client = Client.builder().name("nutrisa").build();
+        clientRepository.save(client);
 
-        retailer = Retailer.builder().name("legrand").build();
-        retailerRepository.save(retailer);
+        client = Client.builder().name("legrand").build();
+        clientRepository.save(client);
 
-        retailer = Retailer.builder().name("bless").build();
-        retailerRepository.save(retailer);
+        client = Client.builder().name("bless").build();
+        clientRepository.save(client);
 
-        retailer = Retailer.builder().name("soho").build();
-        retailerRepository.save(retailer);
+        client = Client.builder().name("soho").build();
+        clientRepository.save(client);
 
     }
 
@@ -146,22 +142,22 @@ public class DatabaseService {
     @Transactional
     private void initAccounts() {
 
-        Retailer bless = retailerRepository.findByName("bless");
-        Retailer legrand = retailerRepository.findByName("legrand");
-        Retailer nutrisa = retailerRepository.findByName("nutrisa");
-        Retailer soho = retailerRepository.findByName("soho");
+        Client bless = clientRepository.findByName("bless");
+        Client legrand = clientRepository.findByName("legrand");
+        Client nutrisa = clientRepository.findByName("nutrisa");
+        Client soho = clientRepository.findByName("soho");
 
-        Holding cencosud = holdingRepository.findByName("cencosud");
-        Holding smu = holdingRepository.findByName("smu");
-        Holding tottus = holdingRepository.findByName("tottus");
-        Holding walmart = holdingRepository.findByName("walmart");
-        Holding construmart = holdingRepository.findByName("construmart");
-        Holding easy = holdingRepository.findByName("easy");
-        Holding sodimac = holdingRepository.findByName("sodimac");
+        Retailer cencosud = retailerRepository.findByName("cencosud");
+        Retailer smu = retailerRepository.findByName("smu");
+        Retailer tottus = retailerRepository.findByName("tottus");
+        Retailer walmart = retailerRepository.findByName("walmart");
+        Retailer construmart = retailerRepository.findByName("construmart");
+        Retailer easy = retailerRepository.findByName("easy");
+        Retailer sodimac = retailerRepository.findByName("sodimac");
 
         Account account = Account.builder()
-                .retailer(bless)
-                .holding(cencosud)
+                .client(bless)
+                .retailer(cencosud)
                 .user("[[PUT_YOUR_VALUE]]")
                 .password("[[PUT_YOUR_VALUE]]")
                 .build();
@@ -169,8 +165,8 @@ public class DatabaseService {
         accountRepository.save(account);
 
         account = Account.builder()
-                .retailer(bless)
-                .holding(smu)
+                .client(bless)
+                .retailer(smu)
                 .user("[[PUT_YOUR_VALUE]]")
                 .password("[[PUT_YOUR_VALUE]]")
                 .build();
@@ -178,8 +174,8 @@ public class DatabaseService {
         accountRepository.save(account);
 
         account = Account.builder()
-                .retailer(bless)
-                .holding(tottus)
+                .client(bless)
+                .retailer(tottus)
                 .user("[[PUT_YOUR_VALUE]]")
                 .password("[[PUT_YOUR_VALUE]]")
                 .build();
@@ -187,8 +183,8 @@ public class DatabaseService {
         accountRepository.save(account);
 
         account = Account.builder()
-                .retailer(bless)
-                .holding(walmart)
+                .client(bless)
+                .retailer(walmart)
                 .user("[[PUT_YOUR_VALUE]]")
                 .password("[[PUT_YOUR_VALUE]]")
                 .build();
@@ -196,8 +192,8 @@ public class DatabaseService {
         accountRepository.save(account);
 
         account = Account.builder()
-                .retailer(legrand)
-                .holding(cencosud)
+                .client(legrand)
+                .retailer(cencosud)
                 .user("[[PUT_YOUR_VALUE]]")
                 .password("[[PUT_YOUR_VALUE]]")
                 .build();
@@ -205,8 +201,8 @@ public class DatabaseService {
         accountRepository.save(account);
 
         account = Account.builder()
-                .retailer(legrand)
-                .holding(construmart)
+                .client(legrand)
+                .retailer(construmart)
                 .user("[[PUT_YOUR_VALUE]]")
                 .password("[[PUT_YOUR_VALUE]]")
                 .build();
@@ -214,8 +210,8 @@ public class DatabaseService {
         accountRepository.save(account);
 
         account = Account.builder()
-                .retailer(legrand)
-                .holding(easy)
+                .client(legrand)
+                .retailer(easy)
                 .user("[[PUT_YOUR_VALUE]]")
                 .password("[[PUT_YOUR_VALUE]]")
                 .build();
@@ -223,8 +219,8 @@ public class DatabaseService {
         accountRepository.save(account);
 
         account = Account.builder()
-                .retailer(legrand)
-                .holding(sodimac)
+                .client(legrand)
+                .retailer(sodimac)
                 .user("[[PUT_YOUR_VALUE]]")
                 .password("[[PUT_YOUR_VALUE]]")
                 .build();
@@ -232,8 +228,8 @@ public class DatabaseService {
         accountRepository.save(account);
 
         account = Account.builder()
-                .retailer(nutrisa)
-                .holding(cencosud)
+                .client(nutrisa)
+                .retailer(cencosud)
                 .user("[[PUT_YOUR_VALUE]]")
                 .password("[[PUT_YOUR_VALUE]]")
                 .build();
@@ -241,8 +237,8 @@ public class DatabaseService {
         accountRepository.save(account);
 
         account = Account.builder()
-                .retailer(nutrisa)
-                .holding(smu)
+                .client(nutrisa)
+                .retailer(smu)
                 .user("[[PUT_YOUR_VALUE]]")
                 .password("[[PUT_YOUR_VALUE]]")
                 .build();
@@ -250,8 +246,8 @@ public class DatabaseService {
         accountRepository.save(account);
 
         account = Account.builder()
-                .retailer(nutrisa)
-                .holding(tottus)
+                .client(nutrisa)
+                .retailer(tottus)
                 .user("[[PUT_YOUR_VALUE]]")
                 .password("[[PUT_YOUR_VALUE]]")
                 .build();
@@ -259,8 +255,8 @@ public class DatabaseService {
         accountRepository.save(account);
 
         account = Account.builder()
-                .retailer(nutrisa)
-                .holding(walmart)
+                .client(nutrisa)
+                .retailer(walmart)
                 .user("[[PUT_YOUR_VALUE]]")
                 .password("[[PUT_YOUR_VALUE]]")
                 .build();
@@ -268,8 +264,8 @@ public class DatabaseService {
         accountRepository.save(account);
 
         account = Account.builder()
-                .retailer(soho)
-                .holding(cencosud)
+                .client(soho)
+                .retailer(cencosud)
                 .user("[[PUT_YOUR_VALUE]]")
                 .password("[[PUT_YOUR_VALUE]]")
                 .build();
@@ -277,8 +273,8 @@ public class DatabaseService {
         accountRepository.save(account);
 
         account = Account.builder()
-                .retailer(soho)
-                .holding(smu)
+                .client(soho)
+                .retailer(smu)
                 .user("[[PUT_YOUR_VALUE]]")
                 .password("[[PUT_YOUR_VALUE]]")
                 .build();
@@ -286,8 +282,8 @@ public class DatabaseService {
         accountRepository.save(account);
 
         account = Account.builder()
-                .retailer(soho)
-                .holding(walmart)
+                .client(soho)
+                .retailer(walmart)
                 .user("[[PUT_YOUR_VALUE]]")
                 .password("[[PUT_YOUR_VALUE]]")
                 .build();

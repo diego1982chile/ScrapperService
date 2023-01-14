@@ -1,8 +1,6 @@
 package cl.ctl.scrapper.services;
 
-import cl.ctl.scrapper.models.Account;
 import cl.ctl.scrapper.models.Retailer;
-import cl.ctl.scrapper.repositories.AccountRepository;
 import cl.ctl.scrapper.repositories.RetailerRepository;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
@@ -41,11 +39,6 @@ public class RetailerService {
         if(retailer.isPersisted()) {
             Retailer previous = retailerRepository.findById(retailer.getId());
             previous.setName(retailer.getName());
-            /*
-            if(retailer.getSchedules() != null) {
-                previous.setSchedules(retailer.getSchedules());
-            }
-            */
 
             return retailerRepository.save(previous);
         }

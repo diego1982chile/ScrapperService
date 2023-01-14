@@ -42,10 +42,10 @@ public class AccountResource {
     }
 
     @GET
-    @Path("{retailer}/{holding}")
-    public Response getAccountByClientAndHolding(@PathParam("retailer") String retailer, @PathParam("holding") String holding) {
+    @Path("{client}/{retailer}")
+    public Response getAccountByClientAndRetailer(@PathParam("client") String client, @PathParam("retailer") String retailer) {
         try {
-            Account account = accountService.getAccountByRetailerAndHolding(retailer, holding);
+            Account account = accountService.getAccountByClientAndRetailer(client, retailer);
             return Response.ok(account).build();
         }
         catch (Exception e) {

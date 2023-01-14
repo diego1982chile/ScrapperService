@@ -40,6 +40,10 @@ public class ScheduleService {
         return scheduleRepository.findAllOrderByName();
     }
 
+    public List<Schedule> getSchedulesByRetailer(String retailer) {
+        return scheduleRepository.findByRetailer(retailer);
+    }
+
     @Transactional
     public Schedule saveSchedule(Schedule schedule) {
         if(schedule.isPersisted()) {

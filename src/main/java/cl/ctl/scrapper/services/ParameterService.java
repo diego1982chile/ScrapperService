@@ -1,8 +1,6 @@
 package cl.ctl.scrapper.services;
 
-import cl.ctl.scrapper.models.Holding;
 import cl.ctl.scrapper.models.Parameter;
-import cl.ctl.scrapper.repositories.HoldingRepository;
 import cl.ctl.scrapper.repositories.ParameterRepository;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;

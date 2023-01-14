@@ -44,6 +44,19 @@ public class ScheduleResource {
         return Response.serverError().build();
     }
 
+    @GET
+    @Path("{retailer}")
+    public Response getSchedulesByRetailer(@PathParam("retailer") String retailer) {
+        try {
+            List<Schedule> parameters = scheduleService.getSchedulesByRetailer(retailer);
+            return Response.ok(parameters).build();
+        }
+        catch (Exception e) {
+            logger.log(Level.SEVERE, e.getMessage());
+        }
+        return Response.serverError().build();
+    }
+
     @POST
     @Path("save")
     public Response createSchedule(Schedule schedule) {

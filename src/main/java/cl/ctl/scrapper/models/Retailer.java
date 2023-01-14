@@ -6,10 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 
 /**
  * Created by root on 09-08-21.
@@ -29,7 +25,5 @@ public class Retailer extends AbstractPersistableEntity<Long> {
     @Column(unique = true)
     private String name;
 
-    //@OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, orphanRemoval = true)
-    //private List<Schedule> schedules = new ArrayList<>();
 
 }

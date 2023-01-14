@@ -6,6 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 
 /**
  * Created by root on 09-08-21.
@@ -16,7 +20,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table
-public class Holding extends AbstractPersistableEntity<Long> {
+public class Client extends AbstractPersistableEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,5 +29,7 @@ public class Holding extends AbstractPersistableEntity<Long> {
     @Column(unique = true)
     private String name;
 
+    //@OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, orphanRemoval = true)
+    //private List<Schedule> schedules = new ArrayList<>();
 
 }

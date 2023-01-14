@@ -1,10 +1,7 @@
 package cl.ctl.scrapper.resources;
 
-
-import cl.ctl.scrapper.models.Holding;
 import cl.ctl.scrapper.models.Parameter;
 import cl.ctl.scrapper.services.AccountService;
-import cl.ctl.scrapper.services.HoldingService;
 import cl.ctl.scrapper.services.ParameterService;
 
 import javax.annotation.security.RolesAllowed;

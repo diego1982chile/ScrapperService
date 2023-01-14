@@ -15,11 +15,11 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     Account findById(long id);
 
-    @Query("SELECT a FROM Account a order by a.retailer.name, a.holding.name")
+    @Query("SELECT a FROM Account a order by a.client.name, a.retailer.name")
     List<Account> findAllOrderByRetailerAndHolding();
 
-    @Query("SELECT a FROM Account a where a.retailer.name = :retailer and a.holding.name = :holding")
-    Account findAccountByRetailerAndHolding(@Param("retailer") String retailer, @Param("holding") String holding);
+    @Query("SELECT a FROM Account a where a.client.name = :client and a.retailer.name = :retailer")
+    Account findAccountByClientAndRetailer(@Param("client") String client, @Param("retailer") String retailer);
 
     @Modifying
     @Query("delete from Account a")
