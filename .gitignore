@@ -14,3 +14,7 @@ ipse
 # Maven
 log/
 target/
+
+*.jar
+
+.env
