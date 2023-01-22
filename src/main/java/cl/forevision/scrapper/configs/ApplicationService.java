@@ -12,7 +12,7 @@ import javax.ws.rs.core.Application;
  */
 @DeclareRoles({"ADMIN", "USER"})
 //@BasicAuthenticationMechanismDefinition(realmName = "incomes")
-@LoginConfig(authMethod = "MP-JWT", realmName = "jwt-jaspi")
+@LoginConfig(authMethod = "MP-JWT")
 @ApplicationPath("/api")
 @ApplicationScoped
 public class ApplicationService extends Application {

@@ -4,10 +4,7 @@ import cl.forevision.scrapper.models.Account;
 import cl.forevision.scrapper.models.Client;
 import cl.forevision.scrapper.models.Parameter;
 import cl.forevision.scrapper.models.Retailer;
-import cl.forevision.scrapper.repositories.AccountRepository;
-import cl.forevision.scrapper.repositories.ClientRepository;
-import cl.forevision.scrapper.repositories.ParameterRepository;
-import cl.forevision.scrapper.repositories.RetailerRepository;
+import cl.forevision.scrapper.repositories.*;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
 
@@ -29,6 +26,7 @@ public class DatabaseService {
     private RetailerRepository retailerRepository;
     private ParameterRepository parameterRepository;
     private AccountRepository accountRepository;
+    private ScheduleRepository scheduleRepository;
 
     @PostConstruct
     private void init() {
@@ -39,6 +37,7 @@ public class DatabaseService {
         this.retailerRepository = factory.getRepository(RetailerRepository.class);
         this.parameterRepository = factory.getRepository(ParameterRepository.class);
         this.accountRepository = factory.getRepository(AccountRepository.class);
+        this.scheduleRepository = factory.getRepository(ScheduleRepository.class);
     }
 
     @Transactional
@@ -54,6 +53,7 @@ public class DatabaseService {
     private void removeAll() {
         accountRepository.removeAll();
         clientRepository.removeAll();
+        scheduleRepository.removeAll();
         retailerRepository.removeAll();
         parameterRepository.removeAll();
     }

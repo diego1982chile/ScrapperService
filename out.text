@@ -1,0 +1,205 @@
+main: Using wallet in /home/des01c7/Descargas/Wallet_scrapper
+Falta el secreto/contraseña en la línea de comandos 
+Introducir Secreto/Contraseña:   
+Volver a Introducir Secreto/Contraseña:   
+main: Create credential scrapper_high in /home/des01c7/Descargas/Wallet_scrapper
+OracleFileSSOWalletImpl.getWalletData: enter...
+OracleFileSSOWalletImpl.getWalletData: System.getProperty(user.name)=root
+Thread with ID:1 is contending for shared ReentrantReadWriteLock for path /home/des01c7/Descargas/Wallet_scrapper
+Thread with ID:1 has acquired shared ReentrantReadWriteLock for path /home/des01c7/Descargas/Wallet_scrapper
+OracleFileSSOWalletImpl.getWalletData: locking (shared) dummy p12 file..
+OracleFileSSOWalletImpl.getWalletData: locking (shared) p12 file..
+Thread with ID:1 is trying to acquire JVM-wide shared file lock on physical file with path /home/des01c7/Descargas/Wallet_scrapper/ewallet.p12
+Thread with ID:1 successfully acquire JVM-wide shared file lock on physical file with path /home/des01c7/Descargas/Wallet_scrapper/ewallet.p12
+OracleFileSSOWalletImpl.getWalletData: locking (shared) dummy sso file..
+OracleFileSSOWalletImpl.getWalletData: locking (shared) sso file..
+Thread with ID:1 is trying to acquire JVM-wide shared file lock on physical file with path /home/des01c7/Descargas/Wallet_scrapper/cwallet.sso
+Thread with ID:1 successfully acquire JVM-wide shared file lock on physical file with path /home/des01c7/Descargas/Wallet_scrapper/cwallet.sso
+Thread with ID:1 removed the cached FileLock, FileChannel and FileInputStream objects corresponding to the file-path /home/des01c7/Descargas/Wallet_scrapper/cwallet.sso from class level pool as no reader thread was reading the physical file.
+Thread with ID:1 removed the cached FileLock, FileChannel and FileInputStream objects corresponding to the file-path /home/des01c7/Descargas/Wallet_scrapper/ewallet.p12 from class level pool as no reader thread was reading the physical file.
+Thread with ID:1 released shared ReentrantReadWriteLock for path /home/des01c7/Descargas/Wallet_scrapper
+Thread with ID:1 purged from lock pool the ReentrantReadWriteLock for path /home/des01c7/Descargas/Wallet_scrapper
+Oracle Wallet: wallet size 7085
+OracleWallet: getSecretStore
+OracleSecretStore: loading wallet from stream
+OracleSSOKeyStoreImpl: engineLoad
+OracleKeyStoreSpi: Loading wallet from stream
+OracleKeyStoreSpi: Opening safe 0
+OracleKeyStoreSpi: found key bag
+OracleKeyStoreSpi: found certReq bag
+OracleKeyStoreSpi: found cert bag
+OracleKeyStoreSpi: found cert bag
+OracleKeyStoreSpi: found cert bag
+OracleKeyStoreSpi: found cert bag
+OracleKeyStoreSpi: Opening safe 0
+OracleKeyStoreSpi: found secret store bag
+OracleKeyStoreSpi: found secret store bag
+OracleKeyStoreSpi: found secret store bag
+OracleKeyStoreSpi: Opening safe 0
+Processing identity 0
+Found certificate { fingerprint = 148caea00096a0361a4da5c2d37d2efb, notBefore = Mon Jan 16 20:03:08 CLST 2023, notAfter = Sat Jan 15 20:03:08 CLST 2028, holder = CN=9C2A18B56AE7416A96AA0435C4A00084,DNQ=V1, issuer = C=US,ST=California,L=Redwood Shores,O=Oracle Corporation Autonomous Database Global Self-signed CA,CN=Autonomous Database CA, serialNo = 0, sigAlgOID = SHA256withRSA, key = { modulus = 22924242984335015839648606646193093099790741905942008321485979183378147792282127984652589009299840050515683869819069695865667400001904095100427937101348136211150090195525452113827068146228380142657824812525266772225539354388665600468067138100455882508149252526469805852502552564191276471227287387233275245570993347548820042708892651467029132408711881513960397534929413952245691172761365480214475657746637127851998136776326075801168951796001787116894968677104186686940652562617885902649811393436052371588961372665674936565436826839630914682259895823224027509496302198550288047277674033030840748904414632323389024084941, exponent = 65537 } }
+Found cert req subject = CN=9C2A18B56AE7416A96AA0435C4A00084,DNQ=V1, pubKey = { modulus = 22924242984335015839648606646193093099790741905942008321485979183378147792282127984652589009299840050515683869819069695865667400001904095100427937101348136211150090195525452113827068146228380142657824812525266772225539354388665600468067138100455882508149252526469805852502552564191276471227287387233275245570993347548820042708892651467029132408711881513960397534929413952245691172761365480214475657746637127851998136776326075801168951796001787116894968677104186686940652562617885902649811393436052371588961372665674936565436826839630914682259895823224027509496302198550288047277674033030840748904414632323389024084941, exponent = 65537 }
+Cert chain determined
+Storing identity 0 as orakey
+Processing TP 0
+Storing TP 0 as CN=DigiCert Global Root CA
+Processing TP 1
+Storing TP 1 as CN=DigiCert TLS RSA SHA256 2020 CA1
+Processing TP 2
+Storing TP 2 as CN=Autonomous Database CA
+OracleKeyStoreSpi: Storing Secret0
+Getting sequence from bag
+Getting alias from sequence 
+Getting secret from sequence 
+OracleKeyStoreSpi: Storing Secret1
+Getting sequence from bag
+Getting alias from sequence 
+Getting secret from sequence 
+OracleKeyStoreSpi: Storing Secret2
+Getting sequence from bag
+Getting alias from sequence 
+Getting secret from sequence 
+OracleKeyStoreSpi: Keystore Loaded
+OracleWallet: internalCheckTrustFlagsEnabled
+OracleSSOKeyStoreImpl: engineLoad
+OracleKeyStoreSpi: Loading wallet from stream
+OracleKeyStoreSpi: Opening safe 0
+OracleKeyStoreSpi: found key bag
+OracleKeyStoreSpi: found certReq bag
+OracleKeyStoreSpi: found cert bag
+OracleKeyStoreSpi: found cert bag
+OracleKeyStoreSpi: found cert bag
+OracleKeyStoreSpi: found cert bag
+OracleKeyStoreSpi: Opening safe 0
+OracleKeyStoreSpi: found secret store bag
+OracleKeyStoreSpi: found secret store bag
+OracleKeyStoreSpi: found secret store bag
+OracleKeyStoreSpi: Opening safe 0
+Processing identity 0
+Found certificate { fingerprint = 148caea00096a0361a4da5c2d37d2efb, notBefore = Mon Jan 16 20:03:08 CLST 2023, notAfter = Sat Jan 15 20:03:08 CLST 2028, holder = CN=9C2A18B56AE7416A96AA0435C4A00084,DNQ=V1, issuer = C=US,ST=California,L=Redwood Shores,O=Oracle Corporation Autonomous Database Global Self-signed CA,CN=Autonomous Database CA, serialNo = 0, sigAlgOID = SHA256withRSA, key = { modulus = 22924242984335015839648606646193093099790741905942008321485979183378147792282127984652589009299840050515683869819069695865667400001904095100427937101348136211150090195525452113827068146228380142657824812525266772225539354388665600468067138100455882508149252526469805852502552564191276471227287387233275245570993347548820042708892651467029132408711881513960397534929413952245691172761365480214475657746637127851998136776326075801168951796001787116894968677104186686940652562617885902649811393436052371588961372665674936565436826839630914682259895823224027509496302198550288047277674033030840748904414632323389024084941, exponent = 65537 } }
+Found cert req subject = CN=9C2A18B56AE7416A96AA0435C4A00084,DNQ=V1, pubKey = { modulus = 22924242984335015839648606646193093099790741905942008321485979183378147792282127984652589009299840050515683869819069695865667400001904095100427937101348136211150090195525452113827068146228380142657824812525266772225539354388665600468067138100455882508149252526469805852502552564191276471227287387233275245570993347548820042708892651467029132408711881513960397534929413952245691172761365480214475657746637127851998136776326075801168951796001787116894968677104186686940652562617885902649811393436052371588961372665674936565436826839630914682259895823224027509496302198550288047277674033030840748904414632323389024084941, exponent = 65537 }
+Cert chain determined
+Storing identity 0 as orakey
+Processing TP 0
+Storing TP 0 as CN=DigiCert Global Root CA
+Processing TP 1
+Storing TP 1 as CN=DigiCert TLS RSA SHA256 2020 CA1
+Processing TP 2
+Storing TP 2 as CN=Autonomous Database CA
+OracleKeyStoreSpi: Storing Secret0
+Getting sequence from bag
+Getting alias from sequence 
+Getting secret from sequence 
+OracleKeyStoreSpi: Storing Secret1
+Getting sequence from bag
+Getting alias from sequence 
+Getting secret from sequence 
+OracleKeyStoreSpi: Storing Secret2
+Getting sequence from bag
+Getting alias from sequence 
+Getting secret from sequence 
+OracleKeyStoreSpi: Keystore Loaded
+OracleKeyStoreSpi::checkTrustFlagsEnabled: Entry
+OracleKeyStoreSpi::checkTrustFlagsEnabled: Exit
+Oracle Wallet: Trust Flags Enabled :false
+OracleWallet: getSecretStore
+Introducir Contraseña de Cartera:   
+OracleFileWalletImpl.getWalletData: enter...
+OracleFileWalletImpl: System.getProperty(user.name)=root
+Thread with ID:1 is contending for shared ReentrantReadWriteLock for path /home/des01c7/Descargas/Wallet_scrapper
+Thread with ID:1 has acquired shared ReentrantReadWriteLock for path /home/des01c7/Descargas/Wallet_scrapper
+OracleFileWalletImpl.getWalletData: locking (shared) dummy p12 file..
+OracleFileWalletImpl.getWalletData: locking (shared) p12 file..
+Thread with ID:1 is trying to acquire JVM-wide shared file lock on physical file with path /home/des01c7/Descargas/Wallet_scrapper/ewallet.p12
+Thread with ID:1 successfully acquire JVM-wide shared file lock on physical file with path /home/des01c7/Descargas/Wallet_scrapper/ewallet.p12
+OracleFileWalletImpl.getWalletData: locking (shared) dummy sso file..
+OracleFileWalletImpl.getWalletData: locking (shared) sso file..
+Thread with ID:1 is trying to acquire JVM-wide shared file lock on physical file with path /home/des01c7/Descargas/Wallet_scrapper/cwallet.sso
+Thread with ID:1 successfully acquire JVM-wide shared file lock on physical file with path /home/des01c7/Descargas/Wallet_scrapper/cwallet.sso
+Thread with ID:1 removed the cached FileLock, FileChannel and FileInputStream objects corresponding to the file-path /home/des01c7/Descargas/Wallet_scrapper/cwallet.sso from class level pool as no reader thread was reading the physical file.
+Thread with ID:1 removed the cached FileLock, FileChannel and FileInputStream objects corresponding to the file-path /home/des01c7/Descargas/Wallet_scrapper/ewallet.p12 from class level pool as no reader thread was reading the physical file.
+Thread with ID:1 released shared ReentrantReadWriteLock for path /home/des01c7/Descargas/Wallet_scrapper
+Thread with ID:1 purged from lock pool the ReentrantReadWriteLock for path /home/des01c7/Descargas/Wallet_scrapper
+Oracle Wallet: wallet size 7040
+OracleWallet: getSecretStore
+OracleSecretStore: loading wallet from stream
+OracleKeyStoreSpi: Loading wallet from stream
+OracleKeyStoreSpi: Opening safe 0
+OracleKeyStoreSpi: found key bag
+OracleKeyStoreSpi: found certReq bag
+OracleKeyStoreSpi: found cert bag
+OracleKeyStoreSpi: found cert bag
+OracleKeyStoreSpi: found cert bag
+OracleKeyStoreSpi: found cert bag
+OracleKeyStoreSpi: Opening safe 0
+OracleKeyStoreSpi: found secret store bag
+OracleKeyStoreSpi: found secret store bag
+OracleKeyStoreSpi: found secret store bag
+OracleKeyStoreSpi: Opening safe 0
+Processing identity 0
+Found certificate { fingerprint = 148caea00096a0361a4da5c2d37d2efb, notBefore = Mon Jan 16 20:03:08 CLST 2023, notAfter = Sat Jan 15 20:03:08 CLST 2028, holder = CN=9C2A18B56AE7416A96AA0435C4A00084,DNQ=V1, issuer = C=US,ST=California,L=Redwood Shores,O=Oracle Corporation Autonomous Database Global Self-signed CA,CN=Autonomous Database CA, serialNo = 0, sigAlgOID = SHA256withRSA, key = { modulus = 22924242984335015839648606646193093099790741905942008321485979183378147792282127984652589009299840050515683869819069695865667400001904095100427937101348136211150090195525452113827068146228380142657824812525266772225539354388665600468067138100455882508149252526469805852502552564191276471227287387233275245570993347548820042708892651467029132408711881513960397534929413952245691172761365480214475657746637127851998136776326075801168951796001787116894968677104186686940652562617885902649811393436052371588961372665674936565436826839630914682259895823224027509496302198550288047277674033030840748904414632323389024084941, exponent = 65537 } }
+Found cert req subject = CN=9C2A18B56AE7416A96AA0435C4A00084,DNQ=V1, pubKey = { modulus = 22924242984335015839648606646193093099790741905942008321485979183378147792282127984652589009299840050515683869819069695865667400001904095100427937101348136211150090195525452113827068146228380142657824812525266772225539354388665600468067138100455882508149252526469805852502552564191276471227287387233275245570993347548820042708892651467029132408711881513960397534929413952245691172761365480214475657746637127851998136776326075801168951796001787116894968677104186686940652562617885902649811393436052371588961372665674936565436826839630914682259895823224027509496302198550288047277674033030840748904414632323389024084941, exponent = 65537 }
+Cert chain determined
+Storing identity 0 as orakey
+Processing TP 0
+Storing TP 0 as CN=DigiCert Global Root CA
+Processing TP 1
+Storing TP 1 as CN=DigiCert TLS RSA SHA256 2020 CA1
+Processing TP 2
+Storing TP 2 as CN=Autonomous Database CA
+OracleKeyStoreSpi: Storing Secret0
+Getting sequence from bag
+Getting alias from sequence 
+Getting secret from sequence 
+OracleKeyStoreSpi: Storing Secret1
+Getting sequence from bag
+Getting alias from sequence 
+Getting secret from sequence 
+OracleKeyStoreSpi: Storing Secret2
+Getting sequence from bag
+Getting alias from sequence 
+Getting secret from sequence 
+OracleKeyStoreSpi: Keystore Loaded
+OracleWallet: internalCheckTrustFlagsEnabled
+OracleKeyStoreSpi: Loading wallet from stream
+OracleKeyStoreSpi: Opening safe 0
+OracleKeyStoreSpi: found key bag
+OracleKeyStoreSpi: found certReq bag
+OracleKeyStoreSpi: found cert bag
+OracleKeyStoreSpi: found cert bag
+OracleKeyStoreSpi: found cert bag
+OracleKeyStoreSpi: found cert bag
+OracleKeyStoreSpi: Opening safe 0
+OracleKeyStoreSpi: found secret store bag
+OracleKeyStoreSpi: found secret store bag
+OracleKeyStoreSpi: found secret store bag
+OracleKeyStoreSpi: Opening safe 0
+Processing identity 0
+Found certificate { fingerprint = 148caea00096a0361a4da5c2d37d2efb, notBefore = Mon Jan 16 20:03:08 CLST 2023, notAfter = Sat Jan 15 20:03:08 CLST 2028, holder = CN=9C2A18B56AE7416A96AA0435C4A00084,DNQ=V1, issuer = C=US,ST=California,L=Redwood Shores,O=Oracle Corporation Autonomous Database Global Self-signed CA,CN=Autonomous Database CA, serialNo = 0, sigAlgOID = SHA256withRSA, key = { modulus = 22924242984335015839648606646193093099790741905942008321485979183378147792282127984652589009299840050515683869819069695865667400001904095100427937101348136211150090195525452113827068146228380142657824812525266772225539354388665600468067138100455882508149252526469805852502552564191276471227287387233275245570993347548820042708892651467029132408711881513960397534929413952245691172761365480214475657746637127851998136776326075801168951796001787116894968677104186686940652562617885902649811393436052371588961372665674936565436826839630914682259895823224027509496302198550288047277674033030840748904414632323389024084941, exponent = 65537 } }
+Found cert req subject = CN=9C2A18B56AE7416A96AA0435C4A00084,DNQ=V1, pubKey = { modulus = 22924242984335015839648606646193093099790741905942008321485979183378147792282127984652589009299840050515683869819069695865667400001904095100427937101348136211150090195525452113827068146228380142657824812525266772225539354388665600468067138100455882508149252526469805852502552564191276471227287387233275245570993347548820042708892651467029132408711881513960397534929413952245691172761365480214475657746637127851998136776326075801168951796001787116894968677104186686940652562617885902649811393436052371588961372665674936565436826839630914682259895823224027509496302198550288047277674033030840748904414632323389024084941, exponent = 65537 }
+Cert chain determined
+Storing identity 0 as orakey
+Processing TP 0
+Storing TP 0 as CN=DigiCert Global Root CA
+Processing TP 1
+Storing TP 1 as CN=DigiCert TLS RSA SHA256 2020 CA1
+Processing TP 2
+Storing TP 2 as CN=Autonomous Database CA
+OracleKeyStoreSpi: Storing Secret0
+Getting sequence from bag
+Getting alias from sequence 
+Getting secret from sequence 
+OracleKeyStoreSpi: Storing Secret1
+Getting sequence from bag
+Getting alias from sequence 
+Getting secret from sequence 
+OracleKeyStoreSpi: Storing Secret2
+Getting sequence from bag
+Getting alias from sequence 
+Getting secret from sequence 
+OracleKeyStoreSpi: Keystore Loaded
+OracleKeyStoreSpi::checkTrustFlagsEnabled: Entry
+OracleKeyStoreSpi::checkTrustFlagsEnabled: Exit
+Oracle Wallet: Trust Flags Enabled :false
+OracleWallet: getSecretStore
+Se ha producido un error de Secret Store: oracle.security.pki.OracleSecretStoreException: Credential already exists
